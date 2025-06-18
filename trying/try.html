@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | BRITS ACADEMY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #0ea5e9;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --light: #f1f5f9;
+            --card-bg: rgba(15, 23, 42, 0.8);
+            --border: rgba(56, 189, 248, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: rgba(2, 6, 23, 0.9);
+            padding: 20px 0;
+            height: 100vh;
+            position: fixed;
+            border-right: 1px solid var(--border);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.3rem;
+            background: linear-gradient(90deg, var(--accent), #38bdf8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-links {
+            list-style: none;
+            padding: 0 15px;
+        }
+        
+        .nav-links li {
+            margin-bottom: 5px;
+        }
+        
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent);
+        }
+        
+        .nav-links a i {
+            margin-right: 12px;
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .header h2 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--accent), #38bdf8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-menu img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .students-icon { background: rgba(37, 99, 235, 0.2); color: var(--primary); }
+        .revenue-icon { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .pending-icon { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        .courses-icon { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-title {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        
+        /* Courses Cards */
+        .courses-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .course-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .course-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .course-header h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: var(--accent);
+        }
+        
+        .course-body {
+            padding: 20px;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+        
+        /* Students Table */
+        .students-table-container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+        
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: rgba(2, 6, 23, 0.5);
+            color: var(--light);
+            font-size: 1rem;
+        }
+        
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 12px;
+            color: #94a3b8;
+        }
+        
+        .table-actions button {
+            padding: 8px 15px;
+            border-radius: 8px;
+            background: rgba(37, 99, 235, 0.2);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .table-actions button:hover {
+            background: rgba(37, 99, 235, 0.3);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            text-align: left;
+            padding: 15px;
+            color: #94a3b8;
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-active { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .status-pending { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        .status-completed { background: rgba(37, 99, 235, 0.2); color: var(--primary); }
+        
+        .payment-paid { color: var(--success); font-weight: 600; }
+        .payment-pending { color: var(--warning); font-weight: 600; }
+        .payment-failed { color: var(--danger); font-weight: 600; }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-buttons button {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .whatsapp-btn { background: rgba(37, 211, 102, 0.2); color: #25d366; }
+        .whatsapp-btn:hover { background: rgba(37, 211, 102, 0.3); }
+        
+        .paid-btn { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .paid-btn:hover { background: rgba(16, 185, 129, 0.3); }
+        
+        .delete-btn { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+        .delete-btn:hover { background: rgba(239, 68, 68, 0.3); }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .logo h1, .nav-links span {
+                display: none;
+            }
+            
+            .nav-links a {
+                justify-content: center;
+                padding: 15px;
+            }
+            
+            .nav-links a i {
+                margin-right: 0;
+                font-size: 1.4rem;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-container, .courses-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .search-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <h1>BRITS ACADEMY</h1>
+        </div>
+        
+        <ul class="nav-links">
+            <li>
+                <a href="#" class="active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Students</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-book-open"></i>
+                    <span>Courses</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Payments</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h2>Admin Dashboard</h2>
+            <div class="user-menu">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=0ea5e9&color=fff" alt="Admin">
+                <span>Admin User</span>
+            </div>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-title">Total Students</div>
+                        <div class="stat-value" id="total-students">0</div>
+                    </div>
+                    <div class="stat-icon students-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-title">Total Revenue</div>
+                        <div class="stat-value" id="total-revenue">$0</div>
+                    </div>
+                    <div class="stat-icon revenue-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-title">Pending Payments</div>
+                        <div class="stat-value" id="pending-payments">0</div>
+                    </div>
+                    <div class="stat-icon pending-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-title">Active Courses</div>
+                        <div class="stat-value" id="active-courses">0</div>
+                    </div>
+                    <div class="stat-icon courses-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Courses Cards -->
+        <div class="courses-container" id="courses-container">
+            <!-- Courses will be loaded dynamically -->
+        </div>
+        
+        <!-- Students Table -->
+        <div class="students-table-container">
+            <div class="table-header">
+                <h3>Recent Enrollments</h3>
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search students...">
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Course</th>
+                            <th>Level</th>
+                            <th>Amount</th>
+                            <th>Payment</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="students-list">
+                        <!-- Students will be loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fetch data from server
+        async function fetchData() {
+            try {
+                // In a real application, these would be API calls to your backend
+                const [students, courses, stats] = await Promise.all([
+                    fetchStudents(),
+                    fetchCourses(),
+                    fetchStats()
+                ]);
+                
+                renderCourses(courses);
+                renderStudents(students);
+                updateStats(stats);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+        
+        // Fetch students from database
+        async function fetchStudents() {
+            // Simulated API call
+            return [
+                {
+                    id: 1,
+                    name: 'John Smith',
+                    email: 'john@example.com',
+                    phone: '+254712345678',
+                    course: 'WEB DEVELOPMENT',
+                    level: 'Beginner',
+                    amount: 10000,
+                    paymentStatus: 'Pending',
+                    enrollmentDate: '2023-10-15',
+                    schedule: 'Morning',
+                    status: 'Active'
+                },
+                {
+                    id: 2,
+                    name: 'Sarah Johnson',
+                    email: 'sarah@example.com',
+                    phone: '+254723456789',
+                    course: 'GRAPHICS DESIGN',
+                    level: 'Intermediate',
+                    amount: 15000,
+                    paymentStatus: 'Paid',
+                    enrollmentDate: '2023-10-18',
+                    schedule: 'Evening',
+                    status: 'Active'
+                },
+                {
+                    id: 3,
+                    name: 'Michael Brown',
+                    email: 'michael@example.com',
+                    phone: '+254734567890',
+                    course: 'YOUTUBE, TIKTOK MONETIZATION & SOCIAL MEDIA MANAGEMENT',
+                    level: 'Advanced',
+                    amount: 20000,
+                    paymentStatus: 'Pending',
+                    enrollmentDate: '2023-10-20',
+                    schedule: 'Morning',
+                    status: 'Active'
+                }
+            ];
+        }
+        
+        // Fetch courses from database
+        async function fetchCourses() {
+            // Simulated API call
+            return [
+                {
+                    id: 'web-dev',
+                    title: 'WEB DEVELOPMENT',
+                    description: 'Learn HTML, CSS, and JavaScript to build modern, responsive websites...',
+                    duration: '8 weeks',
+                    salary: '$1,200+',
+                    completion_rate: '96%'
+                },
+                {
+                    id: 'graphics-design',
+                    title: 'GRAPHICS DESIGN',
+                    description: 'Master the art of visually communicating ideas using typography, imagery...',
+                    duration: '12 weeks',
+                    salary: '$1,450+',
+                    completion_rate: '91%'
+                },
+                {
+                    id: 'youtube-monetization',
+                    title: 'YOUTUBE, TIKTOK MONETIZATION & SOCIAL MEDIA MANAGEMENT',
+                    description: 'Master content creation, audience growth, and monetization on YouTube, TikTok, and social media...',
+                    duration: '9 weeks',
+                    salary: '$1,350+',
+                    completion_rate: '88%'
+                }
+            ];
+        }
+        
+        // Fetch stats from database
+        async function fetchStats() {
+            // Simulated API call
+            return {
+                totalStudents: 142,
+                totalRevenue: 1850000,
+                pendingPayments: 23,
+                activeCourses: 6
+            };
+        }
+        
+        // Render courses
+        function renderCourses(courses) {
+            const container = document.getElementById('courses-container');
+            container.innerHTML = '';
+            
+            courses.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'course-card';
+                card.innerHTML = `
+                    <div class="course-header">
+                        <h3>${course.title}</h3>
+                        <p>${course.description.substring(0, 100)}...</p>
+                    </div>
+                    <div class="course-body">
+                        <div class="course-stats">
+                            <div>
+                                <div>Duration</div>
+                                <div><strong>${course.duration}</strong></div>
+                            </div>
+                            <div>
+                                <div>Salary</div>
+                                <div><strong>${course.salary}</strong></div>
+                            </div>
+                            <div>
+                                <div>Completion</div>
+                                <div><strong>${course.completion_rate}</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+        
+        // Render students
+        function renderStudents(students) {
+            const container = document.getElementById('students-list');
+            container.innerHTML = '';
+            
+            if (students.length === 0) {
+                container.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 40px;">
+                            <i class="fas fa-user-graduate" style="font-size: 3rem; margin-bottom: 15px; color: #94a3b8;"></i>
+                            <h3>No students found</h3>
+                            <p>Try adding students or adjusting your search</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            students.forEach(student => {
+                const row = document.createElement('tr');
+                
+                // Format date
+                const date = new Date(student.enrollmentDate);
+                const formattedDate = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+                
+                // Status badge class
+                let statusClass = '';
+                if (student.status === 'Active') statusClass = 'status-active';
+                else if (student.status === 'Pending') statusClass = 'status-pending';
+                else if (student.status === 'Completed') statusClass = 'status-completed';
+                
+                row.innerHTML = `
+                    <td>${student.name}</td>
+                    <td>${student.course}</td>
+                    <td>${student.level}</td>
+                    <td>$${student.amount.toLocaleString()}</td>
+                    <td class="${student.paymentStatus === 'Paid' ? 'payment-paid' : 
+                                 student.paymentStatus === 'Pending' ? 'payment-pending' : 'payment-failed'}">
+                        ${student.paymentStatus}
+                    </td>
+                    <td>${formattedDate}</td>
+                    <td><span class="status-badge ${statusClass}">${student.status}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="whatsapp-btn" onclick="messageStudent('${student.phone}')">
+                                <i class="fab fa-whatsapp"></i>
+                            </button>
+                            <button class="paid-btn" onclick="markAsPaid(${student.id})">
+                                <i class="fas fa-check-circle"></i>
+                            </button>
+                            <button class="delete-btn" onclick="deleteStudent(${student.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                container.appendChild(row);
+            });
+        }
+        
+        // Update stats
+        function updateStats(stats) {
+            document.getElementById('total-students').textContent = stats.totalStudents;
+            document.getElementById('total-revenue').textContent = `$${stats.totalRevenue.toLocaleString()}`;
+            document.getElementById('pending-payments').textContent = stats.pendingPayments;
+            document.getElementById('active-courses').textContent = stats.activeCourses;
+        }
+        
+        // Mark student as paid
+        async function markAsPaid(studentId) {
+            if (confirm('Mark this payment as completed?')) {
+                try {
+                    // In a real app, this would be an API call to update the database
+                    // await fetch(`/api/students/${studentId}/mark-paid`, { method: 'PATCH' });
+                    
+                    // For demo: reload students
+                    const students = await fetchStudents();
+                    renderStudents(students);
+                    alert('Payment status updated successfully!');
+                } catch (error) {
+                    console.error('Error updating payment:', error);
+                    alert('Failed to update payment status');
+                }
+            }
+        }
+        
+        // Delete student
+        async function deleteStudent(studentId) {
+            if (confirm('Are you sure you want to delete this student?')) {
+                try {
+                    // In a real app, this would be an API call to delete from database
+                    // await fetch(`/api/students/${studentId}`, { method: 'DELETE' });
+                    
+                    // For demo: reload students
+                    const students = await fetchStudents();
+                    renderStudents(students);
+                    alert('Student deleted successfully!');
+                } catch (error) {
+                    console.error('Error deleting student:', error);
+                    alert('Failed to delete student');
+                }
+            }
+        }
+        
+        // Message student via WhatsApp
+        function messageStudent(phone) {
+            // Remove any non-digit characters and add country code if missing
+            const cleanPhone = phone.replace(/\D/g, '');
+            if (!cleanPhone.startsWith('254') && cleanPhone.length === 9) {
+                phone = '254' + cleanPhone;
+            } else {
+                phone = cleanPhone;
+            }
+            
+            const whatsappUrl = `https://wa.me/${phone}`;
+            window.open(whatsappUrl, '_blank');
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchData();
+            
+            // Search functionality
+            document.getElementById('search-input').addEventListener('input', async (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const students = await fetchStudents();
+                
+                if (searchTerm) {
+                    const filtered = students.filter(student => 
+                        student.name.toLowerCase().includes(searchTerm) ||
+                        student.email.toLowerCase().includes(searchTerm) ||
+                        student.course.toLowerCase().includes(searchTerm)
+                    );
+                    renderStudents(filtered);
+                } else {
+                    renderStudents(students);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

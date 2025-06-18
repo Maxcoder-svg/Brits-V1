@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-Pesa Payment Integration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        header {
+            background: #1a2a6c;
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: #4CAF50;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .payment-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e9ecef;
+        }
+        
+        .payment-card h2 {
+            color: #1a2a6c;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .payment-card h2 i {
+            color: #4CAF50;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ced4da;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: #1a2a6c;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.2);
+        }
+        
+        .amount-input {
+            position: relative;
+        }
+        
+        .amount-input span {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            color: #1a2a6c;
+        }
+        
+        .amount-input input {
+            padding-left: 40px;
+        }
+        
+        .recipient-info {
+            background: #e6f7ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #1a2a6c;
+        }
+        
+        .recipient-info p {
+            margin: 5px 0;
+            color: #004085;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: #1a2a6c;
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .btn-primary:hover {
+            background: #0d1a4a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #1a2a6c;
+            color: #1a2a6c;
+        }
+        
+        .btn-outline:hover {
+            background: #f0f5ff;
+        }
+        
+        .status-container {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .status-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            color: #1a2a6c;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 30px 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #1a2a6c, #4CAF50);
+            width: 0;
+            transition: width 1.5s ease-in-out;
+        }
+        
+        .status-message {
+            font-size: 18px;
+            margin: 20px 0;
+            color: #495057;
+        }
+        
+        .disbursement-info {
+            background: #e6f7ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .disbursement-info h3 {
+            color: #1a2a6c;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .disbursement-info p {
+            margin: 8px 0;
+            color: #004085;
+        }
+        
+        .code-section {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            font-family: 'Courier New', monospace;
+            overflow: auto;
+            max-height: 300px;
+        }
+        
+        .code-section h3 {
+            margin-bottom: 15px;
+            color: #3498db;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .code-section pre {
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        
+        .code-section .comment {
+            color: #7f8c8d;
+        }
+        
+        .code-section .function {
+            color: #3498db;
+        }
+        
+        .code-section .string {
+            color: #2ecc71;
+        }
+        
+        .code-section .variable {
+            color: #e74c3c;
+        }
+        
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        @media (max-width: 600px) {
+            header {
+                padding: 20px 15px;
+            }
+            
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-money-bill-wave"></i>
+                <h1>M-Pesa Payment Gateway</h1>
+            </div>
+            <p>Secure mobile payment processing with Safaricom M-Pesa</p>
+        </header>
+        
+        <div class="content">
+            <div class="payment-card" id="paymentForm">
+                <h2><i class="fas fa-shopping-cart"></i> Payment Details</h2>
+                
+                <div class="form-group">
+                    <label for="amount">Payment Amount (KES)</label>
+                    <div class="amount-input">
+                        <span>KES</span>
+                        <input type="number" id="amount" min="10" max="150000" value="500" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Your M-Pesa Phone Number</label>
+                    <input type="tel" id="phone" placeholder="e.g. 254712345678" value="254741261579" required>
+                    <small style="display: block; margin-top: 5px; color: #6c757d;">Format: 2547XXXXXXXX (without spaces)</small>
+                </div>
+                
+                <div class="recipient-info">
+                    <p><strong>Payment will be disbursed to:</strong></p>
+                    <p>Name: <strong>Jane Smith</strong></p>
+                    <p>Phone: <strong>0741261579</strong></p>
+                    <p>Account: <strong>Business Payment</strong></p>
+                </div>
+                
+                <button class="btn btn-primary" id="confirmPayment">
+                    <i class="fas fa-lock"></i> Confirm Payment
+                </button>
+                
+                <button class="btn btn-outline" id="cancelBtn">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+            
+            <div class="status-container" id="statusContainer">
+                <i class="fas fa-sync-alt fa-spin status-icon"></i>
+                <h2>Processing Payment...</h2>
+                
+                <div class="status-message" id="statusMessage">
+                    Initiating M-Pesa STK Push on your device
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress" id="progressBar"></div>
+                </div>
+                
+                <div class="disbursement-info">
+                    <h3><i class="fas fa-money-check-alt"></i> Disbursement Information</h3>
+                    <p><strong>Recipient:</strong> Jane Smith (0741261579)</p>
+                    <p><strong>Amount:</strong> <span id="disbursementAmount">500</span> KES</p>
+                    <p><strong>Reference:</strong> INV-<span id="referenceNumber">0000</span></p>
+                    <p><strong>Status:</strong> <span id="disbursementStatus">Pending</span></p>
+                </div>
+            </div>
+            
+            <div class="code-section">
+                <h3><i class="fas fa-code"></i> Backend Implementation Code</h3>
+                <pre>
+<span class="comment">// Node.js backend implementation for M-Pesa STK Push</span>
+<span class="keyword">const</span> <span class="variable">axios</span> = <span class="function">require</span>(<span class="string">'axios'</span>);
+<span class="keyword">const</span> <span class="variable">express</span> = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> <span class="variable">app</span> = <span class="function">express</span>();
+
+<span class="comment">// Your Daraja API credentials</span>
+<span class="keyword">const</span> <span class="variable">CONSUMER_KEY</span> = <span class="string">'YOUR_CONSUMER_KEY'</span>;
+<span class="keyword">const</span> <span class="variable">CONSUMER_SECRET</span> = <span class="string">'YOUR_CONSUMER_SECRET'</span>;
+<span class="keyword">const</span> <span class="variable">BUSINESS_SHORT_CODE</span> = <span class="string">'YOUR_BUSINESS_SHORT_CODE'</span>; <span class="comment">// e.g., '174379'</span>
+<span class="keyword">const</span> <span class="variable">PASSKEY</span> = <span class="string">'YOUR_PASSKEY'</span>;
+<span class="keyword">const</span> <span class="variable">RECIPIENT_PHONE</span> = <span class="string">'254741261579'</span>; <span class="comment">// Format: 2547XXXXXXXX</span>
+
+<span class="comment">// Generate access token</span>
+<span class="keyword">const</span> <span class="function">getAccessToken</span> = <span class="keyword">async</span> () => {
+  <span class="keyword">const</span> <span class="variable">auth</span> = <span class="function">Buffer</span>.<span class="function">from</span>(`<span class="variable">${CONSUMER_KEY}</span>:<span class="variable">${CONSUMER_SECRET}</span>`).<span class="function">toString</span>(<span class="string">'base64'</span>);
+  <span class="keyword">const</span> <span class="variable">response</span> = <span class="keyword">await</span> <span class="function">axios</span>.<span class="function">get</span>(
+    <span class="string">'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'</span>,
+    { <span class="variable">headers</span>: { <span class="variable">Authorization</span>: <span class="string">`Basic <span class="variable">${auth}</span>`</span> } }
+  );
+  <span class="keyword">return</span> <span class="variable">response</span>.<span class="variable">data</span>.<span class="variable">access_token</span>;
+};
+
+<span class="comment">// Initiate STK Push</span>
+<span class="function">app</span>.<span class="function">post</span>(<span class="string">'/initiate-payment'</span>, <span class="keyword">async</span> (<span class="variable">req</span>, <span class="variable">res</span>) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> { <span class="variable">amount</span>, <span class="variable">phone</span> } = <span class="variable">req</span>.<span class="variable">body</span>;
+    <span class="keyword">const</span> <span class="variable">accessToken</span> = <span class="keyword">await</span> <span class="function">getAccessToken</span>();
+
+    <span class="keyword">const</span> <span class="variable">timestamp</span> = <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>().<span class="function">replace</span>(<span class="regex">/[-:.]/g</span>, <span class="string">''</span>).<span class="function">slice</span>(<span class="number">0</span>, -<span class="number">4</span>);
+    <span class="keyword">const</span> <span class="variable">password</span> = <span class="function">Buffer</span>.<span class="function">from</span>(`<span class="variable">${BUSINESS_SHORT_CODE}</span><span class="variable">${PASSKEY}</span><span class="variable">${timestamp}</span>`).<span class="function">toString</span>(<span class="string">'base64'</span>);
+
+    <span class="keyword">const</span> <span class="variable">response</span> = <span class="keyword">await</span> <span class="function">axios</span>.<span class="function">post</span>(
+      <span class="string">'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest'</span>,
+      {
+        <span class="variable">BusinessShortCode</span>: <span class="variable">BUSINESS_SHORT_CODE</span>,
+        <span class="variable">Password</span>: <span class="variable">password</span>,
+        <span class="variable">Timestamp</span>: <span class="variable">timestamp</span>,
+        <span class="variable">TransactionType</span>: <span class="string">'CustomerPayBillOnline'</span>,
+        <span class="variable">Amount</span>: <span class="variable">amount</span>,
+        <span class="variable">PartyA</span>: <span class="variable">phone</span>, <span class="comment">// Payer's phone</span>
+        <span class="variable">PartyB</span>: <span class="variable">BUSINESS_SHORT_CODE</span>,
+        <span class="variable">PhoneNumber</span>: <span class="variable">phone</span>, <span class="comment">// Payer's phone</span>
+        <span class="variable">CallBackURL</span>: <span class="string">'YOUR_CALLBACK_URL'</span>, <span class="comment">// e.g., https://yourdomain.com/callback</span>
+        <span class="variable">AccountReference</span>: <span class="string">'Payment'</span>,
+        <span class="variable">TransactionDesc</span>: <span class="string">'Service Payment'</span>
+      },
+      { <span class="variable">headers</span>: { <span class="variable">Authorization</span>: <span class="string">`Bearer <span class="variable">${accessToken}</span>`</span> } }
+    );
+
+    <span class="function">res</span>.<span class="function">json</span>(<span class="variable">response</span>.<span class="variable">data</span>);
+  } <span class="keyword">catch</span> (<span class="variable">error</span>) {
+    <span class="function">res</span>.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ <span class="variable">error</span>: <span class="variable">error</span>.<span class="variable">message</span> });
+  }
+});
+
+<span class="comment">// Start server</span>
+<span class="keyword">const</span> <span class="variable">PORT</span> = <span class="number">3000</span>;
+<span class="function">app</span>.<span class="function">listen</span>(<span class="variable">PORT</span>, () => <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Server running on port <span class="variable">${PORT}</span>`</span>));
+                </pre>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Secure payment processing powered by Safaricom M-Pesa API</p>
+            <p>© 2023 Payment Gateway | All rights reserved</p>
+        </footer>
+    </div>
+    <!-- No additional HTML needed here. -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentForm = document.getElementById('paymentForm');
+            const statusContainer = document.getElementById('statusContainer');
+            const confirmPaymentBtn = document.getElementById('confirmPayment');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            const progressBar = document.getElementById('progressBar');
+            const disbursementAmount = document.getElementById('disbursementAmount');
+            const disbursementStatus = document.getElementById('disbursementStatus');
+            const referenceNumber = document.getElementById('referenceNumber');
+            
+            // Generate a random reference number
+            const refNum = Math.floor(1000 + Math.random() * 9000);
+            referenceNumber.textContent = refNum;
+            
+            // Handle payment confirmation
+            confirmPaymentBtn.addEventListener('click', async function() {
+                const amount = document.getElementById('amount').value;
+                const phone = document.getElementById('phone').value;
+                
+                if (!amount || amount < 10) {
+                    alert('Please enter a valid amount (minimum 10 KES)');
+                    return;
+                }
+                
+                if (!phone || phone.length < 9) {
+                    alert('Please enter a valid phone number');
+                    return;
+                }
+                
+                // Show processing UI
+                paymentForm.style.display = 'none';
+                statusContainer.style.display = 'block';
+                disbursementAmount.textContent = amount;
+
+                // You can add AJAX call here to initiate payment if needed
+
+                // Animate progress bar
+                progressBar.style.width = '100%';
+
+                // Simulate payment processing
+                setTimeout(function() {
+                    statusMessage.textContent = 'Payment request sent. Please complete the payment on your phone.';
+                    document.querySelector('.status-icon').className = 'fas fa-check-circle status-icon';
+                    document.querySelector('.status-icon').style.color = '#4CAF50';
+                    disbursementStatus.textContent = 'Success';
+                    disbursementStatus.style.color = '#4CAF50';
+                    disbursementStatus.style.fontWeight = 'bold';
+                }, 3500);
+            });
+
+            // Handle cancel button
+            cancelBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to cancel this payment?')) {
+                    resetUI();
+                }
+            });
+
+            // Reset UI to initial state
+            function resetUI() {
+                paymentForm.style.display = 'block';
+                statusContainer.style.display = 'none';
+                progressBar.style.width = '0';
+                statusMessage.textContent = 'Initiating M-Pesa STK Push on your device';
+                document.querySelector('.status-icon').className = 'fas fa-sync-alt fa-spin status-icon';
+                document.querySelector('.status-icon').style.color = '#1a2a6c';
+                disbursementStatus.textContent = 'Pending';
+                disbursementStatus.style.color = 'inherit';
+                disbursementStatus.style.fontWeight = 'normal';
+
+                // Generate new reference number
+                const newRefNum = Math.floor(1000 + Math.random() * 9000);
+                referenceNumber.textContent = newRefNum;
+            }
+        });
+    </script>
+</body>
+</html>

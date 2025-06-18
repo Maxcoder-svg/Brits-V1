@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Instructions | BRITS ACADEMY</title>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #0ea5e9;
+            --dark: #0f172a;
+            --light: #f1f5f9;
+            --success: #10b981;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        
+        .terminal-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+        }
+        
+        .terminal-header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--accent), #38bdf8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .terminal-body {
+            min-height: 300px;
+            padding: 1.5rem;
+            background: rgba(2, 6, 23, 0.7);
+            border-radius: 10px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .message-container {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+        
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.4rem;
+            background: var(--accent);
+            vertical-align: middle;
+            margin-left: 5px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .highlight {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .till-number {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(14, 165, 233, 0.2);
+            border-radius: 5px;
+            margin: 0 5px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(14, 165, 233, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+        }
+        
+        .payment-info {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .info-label {
+            width: 150px;
+            color: #94a3b8;
+        }
+        
+        .info-value {
+            font-weight: 500;
+        }
+        
+        .amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(14, 165, 233, 0.1);
+        }
+        
+        /* Particle Background Effect */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(56, 189, 248, 0.5);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+    </style>
+     <script>
+        // Firebase configuration (same as index.html)
+        const firebaseConfig = { /* your config */ };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        async function loadStudentData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const studentId = urlParams.get('studentId');
+            
+            if (studentId) {
+                const studentData = await getStudentData(studentId);
+                if (studentData) {
+                    // Update UI with student data
+                    document.getElementById('info-course').textContent = studentData.course;
+                    document.getElementById('info-level').textContent = studentData.level;
+                    document.getElementById('info-amount').textContent = formatCurrency(studentData.amount);
+                    
+                    // Create personalized message
+                    const firstName = studentData.firstName;
+                    const message = `Hello there, ${firstName}!\n\nThank you for choosing ${studentData.course} at BRITS ACADEMY.\n\nPlease make payment of ${formatCurrency(studentData.amount)} via M-PESA.\n\nUse our official till number: \n\n<span class="till-number">3650078</span>\n\nFollow these steps:\n1. Go to M-PESA on your phone\n2. Select "Pay Bill"\n3. Enter Business Number: 3650078\n4. Enter Account Number: Your full name\n5. Enter Amount: ${formatCurrency(studentData.amount)}\n6. Enter your M-PESA PIN and confirm\n\nWe're excited to have you join our learning community!`;
+                    
+                    // Display message with typing effect
+                    typeMessage(message, messageContainer, function() {
+                        document.getElementById('completeBtn').disabled = false;
+                    });
+                }
+            }
+        }
+        
+        async function getStudentData(studentId) {
+            try {
+                const doc = await db.collection("students").doc(studentId).get();
+                return doc.exists ? doc.data() : null;
+            } catch (error) {
+                console.error("Error getting student:", error);
+                return null;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStudentData();
+            // Rest of your existing code
+        });
+    </script>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="logo">
+                <i class="fas fa-terminal"></i>
+                <h1>BRITS ACADEMY PAYMENT TERMINAL</h1>
+            </div>
+            <div class="status-indicator">
+                <span class="highlight">● LIVE</span>
+            </div>
+        </div>
+        
+        <div class="terminal-body">
+            <div class="message-container" id="message"></div>
+            
+            <div class="payment-info">
+                <div class="info-row">
+                    <div class="info-label">Course:</div>
+                    <div class="info-value" id="info-course">-</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Level:</div>
+                    <div class="info-value" id="info-level">-</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Amount:</div>
+                    <div class="info-value">
+                        <span class="amount" id="info-amount">-</span>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Payment Method:</div>
+                    <div class="info-value">M-PESA</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Till Number:</div>
+                    <div class="info-value">
+                        <span class="till-number">3650078</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button class="btn btn-outline" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i> Back to Courses
+            </button>
+            <button class="btn btn-primary" id="completeBtn" disabled>
+                <i class="fas fa-check-circle"></i> I've Completed Payment
+            </button>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        // Create particle background
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 100;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size
+                const size = Math.random() * 3 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation
+                particle.style.animationDuration = `${Math.random() * 20 + 10}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Typewriter effect
+        function typeMessage(message, element, callback) {
+            let i = 0;
+            const speed = 30; // typing speed in milliseconds
+            
+            function type() {
+                if (i < message.length) {
+                    element.innerHTML = message.substring(0, i+1) + '<span class="cursor"></span>';
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    element.innerHTML = message; // remove cursor when done
+                    if (callback) callback();
+                }
+            }
+            
+            type();
+        }
+        
+        // Get URL parameters
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        // Format currency
+        function formatCurrency(amount) {
+            return '$' + amount.toLocaleString();
+        }
+        
+        // On page load
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Get data from URL parameters
+            const course = getQueryParam('course') || 'Selected Course';
+            const level = getQueryParam('level') || 'Beginner';
+            const amount = getQueryParam('amount') ? parseInt(getQueryParam('amount')) : 10000;
+            
+            // Set payment info
+            document.getElementById('info-course').textContent = course;
+            document.getElementById('info-level').textContent = level;
+            document.getElementById('info-amount').textContent = formatCurrency(amount);
+            
+            // Create the message with typing effect
+            const messageContainer = document.getElementById('message');
+            const message = `Hello there!\n\nThank you for choosing ${course} - ${level} level at BRITS ACADEMY.\n\nTo complete your enrollment, please make a payment of ${formatCurrency(amount)} via M-PESA.\n\nUse our official till number: \n\n<span class="till-number">3650078</span>\n\nFollow these steps:\n1. Go to M-PESA on your phone\n2. Select "Pay Bill"\n3. Enter Business Number: 3650078\n4. Enter Account Number: Your full name\n5. Enter Amount: ${formatCurrency(amount)}\n6. Enter your M-PESA PIN and confirm\n\nYour payment will be verified automatically within 5 minutes. Once verified, you'll receive a confirmation email with your course access details.\n\nWe're excited to have you join our learning community!`;
+            
+            typeMessage(message, messageContainer, function() {
+                // Enable button after message completes
+                document.getElementById('completeBtn').disabled = false;
+                
+                // Add visual confirmation
+                document.getElementById('completeBtn').innerHTML = 
+                    '<i class="fas fa-check-circle"></i> I\'ve Completed Payment';
+            });
+            
+            // Handle payment completion
+            document.getElementById('completeBtn').addEventListener('click', function() {
+                // Save to database
+                saveToDatabase(course, level, amount);
+                
+                // Redirect to confirmation page
+                window.location.href = `payment-confirmation.html?course=${encodeURIComponent(course)}&level=${encodeURIComponent(level)}&amount=${amount}`;
+            });
+        });
+        
+        // Save to database
+        async function saveToDatabase(course, level, amount) {
+            // In a real application, you would send this data to your backend
+            // which would then store it in MariaDB
+            
+            // This is a mock implementation
+            const studentData = {
+                firstName: "Student's First Name", // You'd get this from your form
+                lastName: "Student's Last Name",
+                email: "student@example.com",
+                phone: "254712345678",
+                course: course,
+                level: level,
+                amount: amount,
+                paymentDate: new Date().toISOString(),
+                status: "pending"
+            };
+            
+            console.log("Saving to database:", studentData);
+            
+            // Simulate API call
+            try {
+                const response = await fetch('/api/enroll', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(studentData)
+                });
+                
+                const data = await response.json();
+                console.log("Database save successful:", data);
+            } catch (error) {
+                console.error("Error saving to database:", error);
+            }
+        }
+    </script>
+</body>
+</html>

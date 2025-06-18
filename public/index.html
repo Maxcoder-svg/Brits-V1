@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRITS ACADEMY - Learning Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- Logo Banner Section -->
+  
+        
+    </section>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo" onclick="showHome()">
+                <i class="fas fa-laptop-code"></i>
+                <span>BRITS ACADEMY</span>
+            </a>
+            <nav>
+                <ul id="nav-menu">
+                    <li><a href="#" class="active" onclick="showHome()">HOME</a></li>
+                    <li><a href="#" onclick="showAbout()">ABOUT</a></li>
+                    <li><a href="#" onclick="showCourses()">COURSES</a></li>
+                    <li><a href="#" onclick="showAdmin()">ADMIN</a></li>
+                </ul>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Sections -->
+    <main id="main-content">
+        <!-- Home/Hero Section -->
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Master Technical Skills for the Digital Age</h1>
+                    <p>Join our community of learners and professionals to master in-demand technical skills. From coding to cybersecurity, we provide comprehensive resources to boost your career.</p>
+                    <div class="hero-btns">
+                        <a href="#" class="btn btn-primary" onclick="openRegistration()">Get Started</a>
+                        <a href="#" class="btn btn-secondary" onclick="showCourses()">Explore Courses</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <!-- Futuristic Animated Hero Image Section -->
+                    <div class="futuristic-hero-visual" style="position: relative; width: 320px; height: 320px; margin: 0 auto;">
+                    <div class="futuristic-hero-visual" style="position: relative; width: 320px; height: 320px; margin: 0 auto;">
+                        <!-- Animated SVG Glow Rings -->
+                        <svg width="320" height="320" viewBox="0 0 320 320" style="position: absolute; top: 0; left: 0; z-index: 1;">
+                            <defs>
+                                <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.7"/>
+                                    <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0"/>
+                                </radialGradient>
+                                <radialGradient id="glow2" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.5"/>
+                                    <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+                                </radialGradient>
+                            </defs>
+                            <circle cx="160" cy="160" r="120" fill="url(#glow1)">
+                                <animate attributeName="r" values="120;135;120" dur="3s" repeatCount="indefinite"/>
+                                <animate attributeName="opacity" values="0.7;0.3;0.7" dur="3s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="160" cy="160" r="80" fill="url(#glow2)">
+                                <animate attributeName="r" values="80;95;80" dur="2.5s" repeatCount="indefinite"/>
+                                <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.5s" repeatCount="indefinite"/>
+                            </circle>
+                            <!-- Animated Dots -->
+                            <circle cx="60" cy="80" r="6" fill="#38bdf8">
+                                <animate attributeName="cy" values="80;120;80" dur="2.2s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="260" cy="220" r="4" fill="#f59e0b">
+                                <animate attributeName="cx" values="260;220;260" dur="2.8s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="100" cy="250" r="5" fill="#10b981">
+                                <animate attributeName="r" values="5;10;5" dur="2s" repeatCount="indefinite"/>
+                            </circle>
+                        </svg>
+                        <!-- Logo Image with Neon Glow -->
+                        <img src="/ChatGPT Image Jun 6, 2025, 07_12_25 PM.png" alt="BRITS ACADEMY Logo"
+                            style="position: relative; z-index: 2; max-width: 220px; width: 100%; margin: 50px auto 45px auto; border-radius: 18px; box-shadow: 0 0 40px 8px #38bdf888, 0 0 80px 0 #f59e0b44;">
+                        <!-- Animated Floating Shapes -->
+                        <div style="position: absolute; left: 30px; top: 30px; z-index: 3;">
+                            <svg width="32" height="32">
+                                <rect x="0" y="0" width="32" height="32" rx="8" fill="#0ea5e9" opacity="0.7">
+                                    <animateTransform attributeName="transform" type="rotate" from="0 16 16" to="360 16 16" dur="6s" repeatCount="indefinite"/>
+                                </rect>
+                            </svg>
+                        </div>
+                        <div style="position: absolute; right: 30px; bottom: 30px; z-index: 3;">
+                            <svg width="24" height="24">
+                                <circle cx="12" cy="12" r="12" fill="#f59e0b" opacity="0.5">
+                                    <animateTransform attributeName="transform" type="scale" values="1;1.2;1" dur="3s" repeatCount="indefinite"/>
+                                </circle>
+                            </svg>
+                        </div>
+                        <div style="position: absolute; left: 60px; bottom: 60px; z-index: 3;">
+                            <svg width="18" height="18">
+                                <!-- <polygon points="9,0 18,18 0,18" fill="#10b981" opacity="0.6">
+                                    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -10; 0 0" dur="2.5s" repeatCount="indefinite"/>
+                                </polygon> -->
+                            </svg>
+                        </div>
+                    </div>
+                    <style>
+                        .futuristic-hero-visual {
+                            animation: floatY 6s ease-in-out infinite;
+                            filter: drop-shadow(0 8px 32px #38bdf8aa);
+                        }
+                        @keyframes floatY {
+                            0%, 100% { transform: translateY(0);}
+                            50% { transform: translateY(-18px);}
+                        }
+                    </style>
+                     <section class="logo-banner" style="background: #0f172a00; padding: 60px 0 30px 0; text-align: center;">
+        <!-- <img src="/ChatGPT Image Jun 6, 2025, 07_12_25 PM.png" alt="BRITS ACADEMY Logo" -->
+             <!-- style="max-width: 220px; width: 100%;; margin-bottom: 65px; filter: drop-shadow(0 8px 32px #f59e0b66); border-radius: 18px;"> -->
+       
+                    
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about" style="display:none;">
+            <div class="container">
+                <div class="section-title">
+                    <h2>About Us</h2>
+                </div>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>Empowering the Next Generation of Tech Professionals</h3>
+                        <p>BRITS ACADEMY was founded in 2020 with a mission to make technical education accessible to everyone. We believe that in today's digital world, technical literacy is not just an advantage—it's a necessity.</p>
+                        <p>Our team of industry experts and educators have curated the most relevant and up-to-date content to help you stay ahead in your career. Whether you're a beginner or looking to advance your skills, we have resources tailored for you.</p>
+                        
+                        <div class="about-stats">
+                            <div class="stat-box">
+                                <i class="fas fa-users"></i>
+                                <h4>25,000+</h4>
+                                <p>Active Learners</p>
+                            </div>
+                            <div class="stat-box">
+                                <i class="fas fa-book-open"></i>
+                                <h4>120+</h4>
+                                <p>Courses</p>
+                            </div>
+                            <div class="stat-box">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <h4>50+</h4>
+                                <p>Expert Instructors</p>
+                            </div>
+                            <div class="stat-box">
+                                <i class="fas fa-graduation-cap"></i>
+                                <h4>95%</h4>
+                                <p>Completion Rate</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <img src="/VR.jpg" alt="">
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section id="courses" class="content" style="display:none;">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Our Courses</h2>
+                </div>
+                <div class="courses-grid" id="courses-container">
+                    <!-- Course cards will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Course Detail Section -->
+        <section id="course-detail" class="course-detail">
+            <div class="container">
+                <div class="course-hero">
+                    <div class="course-info">
+                        <h1 id="course-detail-title">WEB DEVELOPMENT Fundamentals</h1>
+                        <p id="course-detail-desc">Learn HTML, CSS, and JavaScript to build modern, responsive websites from scratch. This comprehensive course covers everything from basic web structure to advanced interactivity.</p>
+                        
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <h3>8 weeks</h3>
+                                <p>Duration</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>$1,200+</h3>
+                                <p>Average Salary</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>96%</h3>
+                                <p>Completion Rate</p>
+                            </div>
+                        </div>
+                        
+                        <div class="hero-btns">
+                            <a href="#" class="btn btn-primary" onclick="openRegistration()">Enroll Now</a>
+                            <a href="#" class="btn btn-secondary" onclick="showCourses()">Back to Courses</a>
+                        </div>
+                    </div>
+                    
+                    <div class="course-image-large">
+                        <img src="/blue.jpg" alt="">
+                        <!-- <svg viewBox="0 0 500 400" xmlns="https://images.app.goo.gl/W2ofkdd4MVxLBhMMA">
+                            <rect x="50" y="50" width="400" height="300" rx="20" fill="#1E293B"/>
+                            <rect x="70" y="70" width="360" height="260" rx="10" fill="#0F172A"/>
+                            <rect x="90" y="90" width="320" height="40" rx="5" fill="#334155"/>
+                            <rect x="90" y="140" width="140" height="180" rx="5" fill="#2563EB"/>
+                            <rect x="240" y="140" width="170" height="80" rx="5" fill="#F59E0B"/>
+                            <rect x="240" y="230" width="170" height="90" rx="5" fill="#10B981"/>
+                        </svg> -->
+                    </div>
+                </div>
+                
+                <div class="course-modules">
+                    <h2 style="margin-bottom: 20px; color: var(--accent);">Course Modules</h2>
+                    
+                    <div class="module-item">
+                        <div class="module-title" onclick="toggleModule(this)">
+                            <h3>Module 1: HTML Fundamentals</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="module-content">
+                            <p>Learn the building blocks of WEB DEVELOPMENT with HTML5.</p>
+                            <ul>
+                                <li>HTML document structure</li>
+                                <li>Semantic HTML elements</li>
+                                <li>Forms and input types</li>
+                                <li>Accessibility best practices</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="module-item">
+                        <div class="module-title" onclick="toggleModule(this)">
+                            <h3>Module 2: CSS Styling</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="module-content">
+                            <p>Master the art of styling web pages with CSS3.</p>
+                            <ul>
+                                <li>CSS selectors and properties</li>
+                                <li>Flexbox and Grid layouts</li>
+                                <li>Responsive design principles</li>
+                                <li>CSS animations and transitions</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="module-item">
+                        <div class="module-title" onclick="toggleModule(this)">
+                            <h3>Module 3: JavaScript Programming</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="module-content">
+                            <p>Add interactivity to your websites with JavaScript.</p>
+                            <ul>
+                                <li>Variables, data types, and operators</li>
+                                <li>Functions and control structures</li>
+                                <li>DOM manipulation</li>
+                                <li>Event handling</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="module-item">
+                        <div class="module-title" onclick="toggleModule(this)">
+                            <h3>Module 4: Modern Frameworks</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="module-content">
+                            <p>Explore popular frontend frameworks and libraries.</p>
+                            <ul>
+                                <li>Introduction to React.js</li>
+                                <li>Vue.js fundamentals</li>
+                                <li>Component-based architecture</li>
+                                <li>State management</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Others Section -->
+        <section id="others" class="others">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Community & More</h2>
+                </div>
+                <div class="others-content">
+                    <div class="community-box">
+                        <h3>Join Our Community</h3>
+                        <p>Connect with like-minded learners, share projects, get feedback, and participate in exclusive events. Our community is the perfect place to grow your network and skills.</p>
+                        <agit  href="#" class="btn btn-primary" onclick="openRegistration()">Join Now</a>
+                        
+                        <div class="social-links">
+                            <a href="https://www.instagram.com/brits_akademia/
+" class="social-icon">
+                               <i class="fa-brands fa-instagram"></i>
+                            </a>
+                            <a href="
+https://github.com/BritsAcademy
+" class="social-icon">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="http://www.linkedin.com/in/brits-academy-b4363336a" class="social-icon">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://twitter.com/brits_academy" class="social-icon">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://www.tiktok.com/@britsacademy?is_from_webapp=1&sender_device=pc
+" class="social-icon">
+                                <i class="fa-brands fa-tiktok"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="page-indicator">
+                        <div class="page-dot active"></div>
+                        <div class="page-dot"></div>
+                        <div class="page-dot"></div>
+                        <div class="page-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        
+        <!-- Admin Dashboard -->
+   <!-- Admin Dashboard with improved table layout -->
+<section id="admin-dashboard" class="admin-dashboard">
+  <div class="container">
+    <!-- Dashboard header -->
+    <div class="dashboard-header">
+      <!-- Header left -->
+      <div>
+        <h2 style="color: var(--accent); display: flex; align-items: center; gap: 10px;">
+          <i class="fas fa-user-cog"></i> Admin Dashboard
+        </h2>
+        <p style="color: var(--light-text); margin-top: 5px;">
+          Manage courses, students, and enrollments
+        </p>
+      </div>
+      <!-- Header right buttons -->
+      <div class="hero-btns">
+        <a href="#" class="btn btn-secondary" onclick="showHome()">
+          <i class="fas fa-home"></i> Back to Home
+        </a>
+        <button class="btn btn-primary" onclick="addMockStudents()">
+          <i class="fas fa-plus"></i> Add Test Data
+        </button>
+        <button class="btn btn-danger" onclick="resetData()">
+          <i class="fas fa-trash"></i> Reset Data
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-container" style="display: flex;margin: 60px;">
+      <div class="stat-card">
+        <div class="stat-value " id="total-students" style="margin: 10px;">0</div>
+        <div class="stat-label">Total Students</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="active-courses" style="margin: 10px">4</div>
+        <div class="stat-label"style="margin: 10px">Active Courses</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="completion-rate" style="margin: 10px">0%</div>
+        <div class="stat-label" style="margin: 10px">Avg Completion </div>
+      </div>
+      <!-- <div class="stat-card" style="margin: 10px"> -->
+        <!-- <div class="stat-value" id="paid-rate" style="margin: 10px">0%</div> -->
+        <!-- <div class="stat-label">Paid Enrollments</div> -->
+      <!-- </div> -->
+    </div>
+
+    <!-- Courses Section -->
+    <h3 class="section-heading">
+      <i class="fas fa-book"></i> Course Management
+    </h3>
+            <div class="course-cards">
+                <div class="admin-course-card" onclick="showStudents('web-dev')">
+                    <div class="course-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>WEB DEVELOPMENT</h3>
+                    <p><i class="fas fa-users"></i> <span id="web-dev-students">Students: 0</span></p>
+                    <p><i class="fas fa-chart-line"></i> Completion Rate: <span id="web-dev-rate">0%</span></p>
+                </div>
+                
+                <div class="admin-course-card" onclick="showStudents('data-science')">
+                    <div class="course-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Data Science</h3>
+                    <p><i class="fas fa-users"></i> <span id="data-science-students">Students: 0</span></p>
+                    <p><i class="fas fa-chart-line"></i> Completion Rate: <span id="data-science-rate">0%</span></p>
+                </div>
+                
+                <div class="admin-course-card" onclick="showStudents('cybersecurity')">
+                    <div class="course-icon" >
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Cybersecurity</h3>
+                    <p><i class="fas fa-users"></i> <span id="cybersecurity-students">Students: 0</span></p>
+                    <p><i class="fas fa-chart-line"></i> Completion Rate: <span id="cybersecurity-rate">0%</span></p>
+                </div>
+                
+                <div class="admin-course-card" onclick="showStudents('graphics-design')">
+                    <div class="course-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>GRAPHICS DESIGN</h3>
+                    <p><i class="fas fa-users"></i> <span id="graphics-design-students">Students: 0</span></p>
+                    <p><i class="fas fa-chart-line"></i> Completion Rate: <span id="graphics-design-rate">0%</span></p>
+                </div>
+            </div>
+            
+            <!-- Search bar -->
+    <div class="search-container">
+      <input type="text" id="search-input" class="search-box" placeholder="Search students by name, email, or phone..." oninput="filterStudents()">
+      <button class="btn btn-primary" onclick="showStudents(currentCourse)">
+        <i class="fas fa-sync-alt"></i> Refresh
+      </button>
+    </div>
+
+    <!-- Student list -->
+    <h3 id="student-list-title" class="section-heading">
+      <i class="fas fa-user-graduate"></i> <span>WEB DEVELOPMENT Students</span>
+    </h3>
+    <div class="table-container">
+      <table class="students-table">
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Enrollment Date</th>
+            <th>Payment </th>
+            <th>Schedule</th>
+            <th>Status</th>
+            <th style="min-width: 130px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="students-list">
+          <tr>
+            <td colspan="8" class="no-students">
+              <i class="fas fa-user-graduate" style="font-size: 3rem; margin-bottom: 15px;"></i>
+              <h3>No students found</h3>
+              <p>Add students using the "Add Test Data" button</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+        <!-- Notification Section -->
+        <section id="notification-section" class="notification-section">
+            <div class="container">
+                <div class="notification-content">
+                    <h2>Latest Updates</h2>
+                    <p>Stay tuned for our upcoming courses and events!</p>
+                </div>
+            </div>
+        </section>
+    
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span>Data loaded successfully!</span>
+    </div>
+    
+    <div id="notification" class="notification">
+        Data loaded successfully!
+    </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>BRITS ACADEMY</h4>
+                    <p>Empowering individuals with technical skills for the digital future through high-quality, accessible education.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#" onclick="showHome()">Home</a></li>
+                        <li><a href="#" onclick="showAbout()">About Us</a></li>
+                        <li><a href="#" onclick="showCourses()">Courses</a></li>
+                        <li><a href="#" onclick="showAdmin()">Admin</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="#" onclick="showCourseDetail('web-dev')">WEB DEVELOPMENT</a></li>
+                        <li><a href="#" onclick="showCourseDetail('data-science')">Data Science</a></li>
+                        <li><a href="#" onclick="showCourseDetail('cybersecurity')">Cybersecurity</a></li>
+                        <li><a href="#" onclick="showCourseDetail('cloud-computing')">GRAPHICS DESIGN</a></li>
+                        <li><a href="#" onclick="showCourseDetail('mobile-dev')">YOUTUBE, TIKTOK MONETIZATION& SOCIAL MEDIA MANAGEMENT</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> academybrits@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +254 (705) 907-913</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Kutus, Kerugoya</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 BRITS ACADEMY. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="registration-modal" class="modal" style="display: none;">
+    <div class="modal-overlay" onclick="closeModal('registration-modal')"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="academy-branding">
+                <img src="/ChatGPT Image Jun 6, 2025, 07_12_25 PM.png" alt="Brits Academy Logo" class="modal-logo">
+                <h3>Course Registration</h3>
+            </div>
+            <button class="close-modal" onclick="closeModal('registration-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="registration-form">
+                <div class="form-row">
+                    <div class="form-group floating-label">
+                        <input type="text" id="first-name" class="form-control" required>
+                        <label for="first-name">First Name</label>
+                        <div class="focus-border"></div>
+                    </div>
+                    <div class="form-group floating-label">
+                        <input type="text" id="middle-name" class="form-control">
+                        <label for="middle-name">Middle Name (Optional)</label>
+                        <div class="focus-border"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group floating-label">
+                    <input type="text" id="last-name" class="form-control" required>
+                    <label for="last-name">Last Name</label>
+                    <div class="focus-border"></div>
+                </div>
+                
+                <div class="form-group floating-label">
+                    <input type="email" id="email" class="form-control" required>
+                    <label for="email">Email Address</label>
+                    <div class="focus-border"></div>
+                </div>
+                
+                <div class="form-group floating-label">
+                    <input type="tel" id="phone" class="form-control" required>
+                    <label for="phone">Phone Number</label>
+                    <div class="focus-border"></div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group select-group">
+                        <label for="course">Select Course</label>
+                        <select id="course" class="form-control" required>
+                            <option value="" disabled selected>Choose a course</option>
+                            <option value="web-dev">WEB DEVELOPMENT</option>
+                            <option value="data-science">Data Science</option>
+                            <option value="cybersecurity">Cybersecurity</option>
+                            <option value="graphics-design">GRAPHICS DESIGN</option>
+                            <option value="social-media">YOUTUBE, TIKTOK MONETIZATION & SOCIAL MEDIA MANAGEMENT</option>
+                            <option value="digital-marketing">VIRTUAL ASSISTANT, DIGITAL MARKETING & CHAT MODERATION</option>
+                        </select>
+                        <div class="select-arrow"></div>
+                    </div>
+                    
+                    <div class="form-group select-group">
+                        <label for="level">Course Level</label>
+                        <select id="level" class="form-control" required>
+                            <option value="" disabled selected>Select level</option>
+                            <option value="beginner">Beginner ($10,000)</option>
+                            <option value="intermediate">Intermediate ($15,000)</option>
+                            <option value="advanced">Advanced ($20,000)</option>
+                        </select>
+                        <div class="select-arrow"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group terms-group">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to Brits Academy's <a href="#">Terms and Conditions</a></label>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal('registration-modal')">Cancel</button>
+            <button class="btn btn-primary" onclick="validateAndProceed()">
+                <span class="btn-text">Proceed to Payment</span>
+                <span class="btn-loading">
+                    <div class="spinner"></div>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+
+ <!-- Firebase UI container for Admin login -->
+    <div id="firebaseui-auth-container" style="display: none;"></div>
+    
+    <!-- Firebase SDK -->
+     
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/firebaseui@6.0.2/dist/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/firebaseui@6.0.2/dist/firebaseui.css" />
+    <script> // Firebase configuration
+     const firebaseConfig = {
+  apiKey: "AIzaSyAVfy2oy892QqkgPZ0wsYIe7vdyuu2VgiE",
+  authDomain: "brits-academy.firebaseapp.com",
+  projectId: "brits-academy",
+  storageBucket: "brits-academy.firebasestorage.app",
+  messagingSenderId: "449738730487",
+  appId: "1:449738730487:web:b887df0a7470076a4cdcf2",
+  measurementId: "G-7S02WLG1M3"
+};
+        // Add this temporary code to your registration form page
+console.log("Firebase app:", firebase.app().name);
+console.log("Firestore instance:", firebase.firestore().app.name);
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        
+        // Initialize FirebaseUI
+        const uiConfig = {
+            signInSuccessUrl: 'index.html',
+            signInOptions: [
+                firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                firebase.auth.GoogleAuthProvider.PROVIDER_ID
+            ],
+            tosUrl: '#',
+            privacyPolicyUrl: '#',
+            callbacks: {
+                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                    // User successfully signed in
+                    document.getElementById('firebaseui-auth-container').style.display = 'none';
+                    showAdminDashboard();
+                    return false;
+                }
+            }
+        };
+        
+        const ui = new firebaseui.auth.AuthUI(auth);
+        
+        // Admin login function
+        function showAdmin() {
+            document.getElementById('firebaseui-auth-container').style.display = 'block';
+            ui.start('#firebaseui-auth-container', uiConfig);
+        }
+        
+        // Save student data to Firestore
+        async function saveStudentToFirestore(formData) {
+    try {
+        console.log("Attempting to save to Firestore:", formData);
+        
+        const docRef = await firebase.firestore().collection("students").add({
+            ...formData,
+            registrationDate: firebase.firestore.FieldValue.serverTimestamp(),
+            paymentStatus: "pending"
+        });
+        
+        console.log("Successfully saved with ID:", docRef.id);
+        return docRef.id;
+    } catch (error) {
+        console.error("Firestore save error:", error);
+        throw error;
+    }
+}
+        
+        // Form Validation and Submission
+        async function validateAndProceed() {
+            const form = document.getElementById('registration-form');
+            const submitBtn = form.querySelector('.btn-primary');
+            const inputs = form.querySelectorAll('input[required], select[required]');
+            let isValid = true;
+            
+            // Validate required fields
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.style.borderColor = '#e74c3c';
+                    isValid = false;
+                    input.parentElement.style.animation = 'shake 0.5s';
+                    setTimeout(() => input.parentElement.style.animation = '', 500);
+                }
+            });
+
+            // Validate terms checkbox
+            const terms = document.getElementById('terms');
+            if (!terms.checked) {
+                isValid = false;
+                terms.parentElement.style.animation = 'shake 0.5s';
+                setTimeout(() => terms.parentElement.style.animation = '', 500);
+            }
+
+            if (isValid) {
+                submitBtn.classList.add('loading');
+                
+                // Collect form data
+                const formData = {
+                    firstName: document.getElementById('first-name').value.trim(),
+                    lastName: document.getElementById('last-name').value.trim(),
+                    middleName: document.getElementById('middle-name').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    phone: document.getElementById('phone').value.trim(),
+                    course: document.getElementById('course').value,
+                    level: document.getElementById('level').value
+                };
+
+                // Calculate amount based on level
+                const amountMap = { beginner: 10000, intermediate: 15000, advanced: 20000 };
+                formData.amount = amountMap[formData.level] || 10000;
+
+                try {
+                    // Save to Firestore
+                    const studentId = await saveStudentToFirestore(formData);
+                    
+                    // Generate receipt ID
+                    const now = new Date();
+                    const receiptId = `TS101-${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2,'0')}${now.getDate().toString().padStart(2,'0')}-${Math.floor(Math.random()*1000).toString().padStart(3,'0')}`;
+                    
+                    // Update student record with receipt ID
+                    await db.collection("students").doc(studentId).update({
+                        receiptId: receiptId
+                    });
+                    
+                    // Redirect to payment instructions
+                    window.location.href = `payment-instructions.html?firstName=${encodeURIComponent(formData.firstName)}&course=${encodeURIComponent(formData.course)}&level=${encodeURIComponent(formData.level)}&amount=${formData.amount}&studentId=${studentId}`;
+                } catch (error) {
+                    console.error("Error saving student data:", error);
+                    alert("There was an error processing your registration. Please try again.");
+                    submitBtn.classList.remove('loading');
+                }
+            }
+        }
+        
+        // Function to retrieve student data from Firestore
+        async function getStudentData(studentId) {
+            try {
+                const doc = await db.collection("students").doc(studentId).get();
+                if (doc.exists) {
+                    return doc.data();
+                } else {
+                    console.log("No such document!");
+                    return null;
+                }
+            } catch (error) {
+                console.error("Error getting student data:", error);
+                return null;
+            }
+        }
+        </script>
+    <script src="script.js"></script>
+</body>
+</html>
