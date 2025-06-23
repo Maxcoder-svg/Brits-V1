@@ -244,7 +244,7 @@
                     
                     // Create personalized message
                     const firstName = studentData.firstName;
-                    const message = `Hello there, ${firstName}!\n\nThank you for choosing ${studentData.course} at BRITS ACADEMY.\n\nPlease make payment of ${formatCurrency(studentData.amount)} via M-PESA.\n\nUse our official till number: \n\n<span class="till-number">3650078</span>\n\nFollow these steps:\n1. Go to M-PESA on your phone\n2. Select "Pay Bill"\n3. Enter Business Number: 3650078\n4. Enter Account Number: Your full name\n5. Enter Amount: ${formatCurrency(studentData.amount)}\n6. Enter your M-PESA PIN and confirm\n\nWe're excited to have you join our learning community!`;
+                    const message = `Hello there, ${firstName}!\n\nThank you for choosing ${studentData.course} at BRITS ACADEMY.\n\nPlease make payment of ${formatCurrency(studentData.amount)} via M-PESA.\n\nUse our official till number: \n\n<span class="till-number">3650078</span>\n\nFollow these steps:\n1. Go to M-PESA on your phone\n2. Select "Buy goods and Services"\n3. Enter Till Number: 3650078\n4. Enter Amount: ${formatCurrency(studentData.amount)}\n5. Enter your M-PESA PIN and confirm\n\nWe're excited to have you join our learning community!`;
                     
                     // Display message with typing effect
                     typeMessage(message, messageContainer, function() {
@@ -399,7 +399,7 @@
             
             // Create the message with typing effect
             const messageContainer = document.getElementById('message');
-            const message = `Hello there!\n\nThank you for choosing ${course} - ${level} level at BRITS ACADEMY.\n\nTo complete your enrollment, please make a payment of ${formatCurrency(amount)} via M-PESA.\n\nUse our official till number: \n\n<span class="till-number">3650078</span>\n\nFollow these steps:\n1. Go to M-PESA on your phone\n2. Select "Pay Bill"\n3. Enter Business Number: 3650078\n4. Enter Account Number: Your full name\n5. Enter Amount: ${formatCurrency(amount)}\n6. Enter your M-PESA PIN and confirm\n\nYour payment will be verified automatically within 5 minutes. Once verified, you'll receive a confirmation email with your course access details.\n\nWe're excited to have you join our learning community!`;
+            const message = `Hello there!\n\nThank you for choosing ${course} - ${level} level at BRITS ACADEMY.\n\nTo complete your enrollment, please make a payment of ${formatCurrency(amount)} via M-PESA.\n\nUse our official till number: \n\n<span class="till-number">3650078</span>\n\nFollow these steps:\n1. Go to M-PESA on your phone\n2. Select "Buy Goods and Services"\n3. Enter Till Number: 3650078\n4. Enter Amount: ${formatCurrency(amount)}\n5. Enter your M-PESA PIN and confirm\n\nYour payment will be verified automatically within 5 minutes. Once verified, you'll receive a confirmation email with your course access details.\n\nWe're excited to have you join our learning community!`;
             
             typeMessage(message, messageContainer, function() {
                 // Enable button after message completes

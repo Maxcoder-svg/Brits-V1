@@ -9,7 +9,30 @@
 </head>
 <body>
     <!-- Logo Banner Section -->
-  
+    
+    <!-- Floating Chatbot Launcher -->
+    <div class="academy-chat-launcher" id="academyChatLauncher">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div class="academy-chat-container" id="academyChatContainer">
+        <div class="academy-chat-header">
+            <h3><i class="fas fa-graduation-cap"></i> Brits Academy Assistant</h3>
+            <button class="academy-chat-close" id="academyChatClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="academy-chat-messages" id="academyChatMessages">
+            <!-- Messages will appear here -->
+        </div>
+        <div class="academy-chat-input-container">
+            <input type="text" class="academy-chat-input" id="academyChatQuery" placeholder="Ask about courses, enrollment, payments...">
+            <button class="academy-chat-send-btn" id="academyChatSendBtn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
         
     </section>
     <!-- Header -->
@@ -125,6 +148,7 @@
                 </div>
             </div>
         </section>
+        
 
         <!-- About Section -->
         <section id="about" class="about" style="display:none;">
@@ -303,7 +327,7 @@
                     <div class="community-box">
                         <h3>Join Our Community</h3>
                         <p>Connect with like-minded learners, share projects, get feedback, and participate in exclusive events. Our community is the perfect place to grow your network and skills.</p>
-                        <agit  href="#" class="btn btn-primary" onclick="openRegistration()">Join Now</a>
+                        <a href="#" class="btn btn-primary" onclick="openRegistration()">Join Now</a>
                         
                         <div class="social-links">
                             <a href="https://www.instagram.com/brits_akademia/
@@ -630,9 +654,663 @@ https://github.com/BritsAcademy
 
  <!-- Firebase UI container for Admin login -->
     <div id="firebaseui-auth-container" style="display: none;"></div>
-    
-    <!-- Firebase SDK -->
      
+    <!-- Firebase SDK -->
+     <!-- <iframe src="https://app.edcafe.ai/chatbots/68568d1410c6ad0621d6faf7" title=Brits Academy Chatbot width="100%" height="100%" style="border: none;"></iframe> -->
+    <script>
+        // ===== KNOWLEDGE BASE ===== //
+        const academyFAQs = [
+            {
+                "question": "How do I enroll in a course?",
+                "answer": "Yes, there is a registration fee, the information regarding payment methods and registration fees is present in the 'enroll now' button. You can also contact us at +254741261579 for more information."
+            },
+            {
+                "question": "What payment methods do you accept?",
+                "answer": "We accept M-Pesa (Till Number: 3650078), Direct Money Transfer through (Brits Academy official hotline, Number:+254741261579 ), and cash payments at our office."
+            },
+            {
+                "question": "Do you offer certificates upon completion?",
+                "answer": "Yes, all courses include a Brits Academy certificate upon successful completion and passing the final assessment."
+            },
+            {
+                "question": "Can I take multiple courses at the same time?",
+                "answer": "We offer 6 courses of which you can view. Just write 'tutor' in the chat and you'll be redirected to the courses page. You can enroll in multiple courses, but we recommend not exceeding 2-3 at a time to ensure quality learning."
+            },
+            {
+                "question": "What if I miss a class?",
+                "answer": "Recorded sessions are available for all classes. You can access them through our student portal. If you need additional help, you can schedule a 1-on-1 session with your tutor."
+            },
+            {
+                "question": "Do you offer job placement assistance?",
+                "answer": "Yes, we have a career services department that helps with resume building, interview preparation, and connecting students with our industry partners."
+            },
+            {
+                "question": "What equipment do I need for online classes?",
+                "answer": "You'll need a computer/laptop with internet access, a webcam, and a microphone. Specific software requirements vary by course."
+            },
+            {
+                "question": "Are there any discounts available?",
+                "answer": "We offer early bird discounts (10% off for enrollment 30+ days before start), group discounts (15% off for 3+ students), and alumni discounts (20% off for returning students)."
+            },
+            {
+                "question": "Can I get a refund if I'm not satisfied?",
+                "answer": "We offer a 7-day money-back guarantee after the first class. After that, refunds are prorated based on classes attended."
+            },
+            {
+                "question": "How qualified are your tutors?",
+                "answer": "All our tutors have at least 5 years of industry experience and undergo rigorous training. Many hold advanced degrees in their respective fields."
+            },
+            {
+                "question": "Do you offer payment plans?",
+                "answer": "Yes, we offer flexible payment plans. You can pay 50% at enrollment and the remainder in monthly installments with no interest."
+            },
+            {
+                "question": "What is the class size?",
+                "answer": "We maintain small class sizes of 10-15 students to ensure personalized attention and effective learning."
+            },
+            {
+                "question": "Do I need prior experience for beginner courses?",
+                "answer": "No, our beginner courses are designed for students with no prior experience. We start from the fundamentals and build up."
+            },
+            {
+                "question": "How long do I have access to course materials?",
+                "answer": "You'll have lifetime access to all course materials, including recordings, through our student portal."
+            },
+            {
+                "question": "Can I switch courses after enrollment?",
+                "answer": "You can enroll using the main academy landing page by clicking the  'Enroll now' button and you'll be redirected to payment page or you can contact +254741261579 for more info"
+            }
+        ];
+
+        const academyCourses = [
+            {
+                "id": "1",
+                "name": "Web Development",
+                "tutor": "Ian Njoroge",
+                "tutorPhone": "+254741261579",
+                "description": "Full stack web development course covering HTML, CSS, JavaScript, React, Node.js, and MongoDB. Learn to build complete web applications from front-end to back-end.",
+                "duration": "3 months",
+                "schedule": "Mon & Wed, 2PM-4PM",
+                "prerequisites": "Basic computer skills",
+                "certification": "Brits Academy Web Developer Certificate",
+                "fee": "KES 25,000"
+            },
+            {
+                "id": "2",
+                "name": "Data Science",
+                "tutor": "Victor",
+                "tutorPhone": "+254704230381",
+                "description": "Master data analysis, visualization, and machine learning using Python, Pandas, NumPy, and Scikit-learn. Learn to extract insights from complex datasets.",
+                "duration": "4 months",
+                "schedule": "Tue & Thu, 10AM-12PM",
+                "prerequisites": "Basic math knowledge",
+                "certification": "Brits Academy Data Science Certificate",
+                "fee": "KES 30,000"
+            },
+            {
+                "id": "3",
+                "name": "Cybersecurity",
+                "tutor": "Excel",
+                "tutorPhone": "+254117487554",
+                "description": "Learn cybersecurity fundamentals including network security, ethical hacking, penetration testing, cryptography, and security best practices.",
+                "duration": "3 months",
+                "schedule": "Mon & Fri, 4PM-6PM",
+                "prerequisites": "Basic networking knowledge",
+                "certification": "Brits Academy Cybersecurity Certificate",
+                "fee": "KES 28,000"
+            },
+            {
+                "id": "4",
+                "name": "Graphics Design & Architecture",
+                "tutor": "Iann Abungana",
+                "tutorPhone": "+254759097157",
+                "description": "Master design principles, architectural concepts, and industry tools like AutoCAD, SketchUp, and Adobe Creative Suite for architectural visualization.",
+                "duration": "4 months",
+                "schedule": "Wed & Sat, 9AM-12PM",
+                "prerequisites": "Creativity and design interest",
+                "certification": "Brits Academy Design & Architecture Certificate",
+                "fee": "KES 27,000"
+            },
+            {
+                "id": "5",
+                "name": "YouTube, TikTok Monetization & Social Media Management",
+                "tutor": "Telvin",
+                "tutorPhone": "+254746550166",
+                "description": "Learn content creation strategies, audience growth techniques, monetization methods, and social media management across all major platforms.",
+                "duration": "2 months",
+                "schedule": "Tue & Thu, 2PM-4PM",
+                "prerequisites": "Social media account",
+                "certification": "Brits Academy Social Media Expert Certificate",
+                "fee": "KES 20,000"
+            },
+            {
+                "id": "6",
+                "name": "Virtual Assistant, Digital Marketing & Chat Moderation",
+                "tutor": "Caleb",
+                "tutorPhone": "+254791870469",
+                "description": "Master virtual assistance skills including email management, digital marketing strategies, chat moderation, customer support, and productivity tools.",
+                "duration": "3 months",
+                "schedule": "Mon, Wed, Fri 6PM-8PM",
+                "prerequisites": "Good communication skills",
+                "certification": "Brits Academy Virtual Professional Certificate",
+                "fee": "KES 22,000"
+            }
+        ];
+
+        const academyHandbook = {
+            "officeHours": "Monday-Friday: 8:00 AM - 6:00 PM\nSaturday: 9:00 AM - 1:00 PM\nSunday: Closed",
+            "contactInfo": "Phone: +254741261579\nEmail: academybrits@gmail.com\nLocation: Nairobi CBD, Kenya",
+            "academicCalendar": "Term 1: January 9 - March 31\nTerm 2: April 10 - June 30\nTerm 3: July 10 - September 29\nTerm 4: October 9 - December 15",
+            "paymentMethods": "1. M-Pesa: Paybill 123456 • Account: Your Full Name\n2. Bank Transfer: Equity Bank • Account Name: Brits Academy • Account #: 123456789\n3. Cash: At our office during business hours",
+            "latePaymentPolicy": "A 5% monthly penalty will be applied to balances overdue by more than 7 days.",
+            "certificationRequirements": "1. Attend at least 80% of classes\n2. Complete all assignments\n3. Score at least 60% on final assessment\n4. Settle all financial obligations",
+            "supportServices": "Technical Support: support@britsacademy.ac.ke (8AM-8PM daily)\nAcademic Support: Weekly tutor office hours, Study groups\nCounseling Services: Confidential counseling available"
+        };
+
+        // ===== ENHANCED CHATBOT FUNCTIONALITY ===== //
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const academyChatLauncher = document.getElementById('academyChatLauncher');
+            const academyChatContainer = document.getElementById('academyChatContainer');
+            const academyChatClose = document.getElementById('academyChatClose');
+            const academyChatMessages = document.getElementById('academyChatMessages');
+            const academyChatQuery = document.getElementById('academyChatQuery');
+            const academyChatSendBtn = document.getElementById('academyChatSendBtn');
+            
+            // Chat state management
+            let academyChatState = 'initial'; // 'initial', 'awaiting_tutor_selection', 'awaiting_contact_confirmation'
+            let academySelectedTutor = null;
+            let lastUserMessage = '';
+            
+            // Toggle chatbot visibility
+            academyChatLauncher.addEventListener('click', function() {
+                academyChatContainer.classList.add('active');
+                // Reset state when chat is opened
+                academyChatState = 'initial';
+                // Add welcome message if chat is empty
+                if (academyChatMessages.children.length === 0) {
+                    setTimeout(() => {
+                        academyAddBotMessage("<div class='academy-greeting'><strong>Hello! 👋</strong><br>Welcome to Brits Academy. I'm your virtual assistant. How can I help you today?</div>");
+                        // Show quick start options
+                        academyShowQuickStartOptions();
+                    }, 300);
+                }
+            });
+            
+            academyChatClose.addEventListener('click', function() {
+                academyChatContainer.classList.remove('active');
+            });
+            
+            // Send message
+            academyChatSendBtn.addEventListener('click', academySendUserMessage);
+            academyChatQuery.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') academySendUserMessage();
+            });
+            
+
+            
+            // Quick replies and tutor options event delegation
+            academyChatMessages.addEventListener('click', function(e) {
+                if (e.target.classList.contains('academy-quick-reply-btn')) {
+                    const query = e.target.getAttribute('data-academy-query');
+                    academyChatQuery.value = query;
+                    academySendUserMessage();
+                }
+                
+                // WhatsApp button handling
+                if (e.target.classList.contains('academy-whatsapp-btn')) {
+                    const phone = e.target.getAttribute('data-academy-phone');
+                    academyOpenWhatsApp(phone);
+                }
+                
+                // Tutor option handling
+                if (e.target.classList.contains('academy-tutor-option')) {
+                    const tutorPhone = e.target.getAttribute('data-tutor-phone');
+                    const tutorName = e.target.getAttribute('data-tutor-name');
+                    const courseName = e.target.getAttribute('data-course-name');
+                    
+                    // Set state and tutor info
+                    academyChatState = 'awaiting_contact_confirmation';
+                    academySelectedTutor = {
+                        name: tutorName,
+                        phone: tutorPhone,
+                        course: courseName
+                    };
+                    
+                    // Show confirmation message
+                    academyAddBotMessage(`Would you like to contact ${tutorName} (${courseName} tutor) via WhatsApp at ${tutorPhone}?`);
+                }
+                
+                // Prediction item handling
+                if (e.target.classList.contains('academy-prediction-item')) {
+                    const query = e.target.getAttribute('data-prediction');
+                    academyChatQuery.value = query;
+                    academySendUserMessage();
+                }
+            });
+            
+            // Send user message
+            function academySendUserMessage() {
+                const query = academyChatQuery.value.trim();
+                if (!query) return;
+                
+                academyAddUserMessage(query);
+                academyChatQuery.value = '';
+                lastUserMessage = query;
+                
+                // Show typing indicator
+                academyShowTypingIndicator();
+                
+                // Get bot response after a short delay
+                setTimeout(function() {
+                    academyRemoveTypingIndicator();
+                    const response = academyGetBotResponse(query);
+                    academyAddBotMessage(response);
+                }, 800);
+            }
+            
+            // Add user message to chat
+            function academyAddUserMessage(text) {
+                const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'academy-msg academy-user-msg';
+                messageDiv.innerHTML = `
+                    <div>${text}</div>
+                    <span class="academy-msg-time">${time}</span>
+                `;
+                academyChatMessages.appendChild(messageDiv);
+                academyScrollToBottom();
+            }
+            
+            // Add bot message to chat
+            function academyAddBotMessage(text) {
+                const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'academy-msg academy-bot-msg';
+                
+                // Check if we need to add quick replies
+                let quickReplies = '';
+                
+                if (text.includes('Which course')) {
+                    quickReplies = `
+                        <div class="academy-quick-replies">
+                            ${academyCourses.slice(0, 4).map(course => 
+                                `<button class="academy-quick-reply-btn" data-academy-query="${course.name}">${course.name}</button>`
+                            ).join('')}
+                        </div>
+                    `;
+                }
+                else if (text.includes('Would you like to contact a specific tutor?')) {
+                    quickReplies = `
+                        <div class="academy-tutor-options">
+                            ${academyCourses.map(course => 
+                                `<div class="academy-tutor-option" 
+                                    data-tutor-phone="${course.tutorPhone}"
+                                    data-tutor-name="${course.tutor}"
+                                    data-course-name="${course.name}">
+                                    <div class="academy-tutor-name">${course.tutor}</div>
+                                    <div class="academy-tutor-course">${course.name}</div>
+                                </div>`
+                            ).join('')}
+                        </div>
+                    `;
+                }
+                else if (text.includes('Would you like to contact')) {
+                    quickReplies = `
+                        <div class="academy-quick-replies">
+                            <button class="academy-quick-reply-btn" data-academy-query="Yes">Yes</button>
+                            <button class="academy-quick-reply-btn" data-academy-query="No">No</button>
+                        </div>
+                    `;
+                }
+                else if (text.includes('Click here to message')) {
+                    // Add WhatsApp button directly in the message
+                    quickReplies = `
+                        <div class="academy-quick-replies">
+                            <a href="https://wa.me/${academyCleanPhone(academySelectedTutor.phone)}" class="academy-whatsapp-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Message on WhatsApp
+                            </a>
+                        </div>
+                    `;
+                }
+                
+                // Add prediction section if applicable
+                let prediction = '';
+                if (academyChatState === 'initial' && !text.includes('Would you like to contact') && 
+                    !text.includes('Click here to message') && !text.includes('Which course')) {
+                    prediction = academyGeneratePrediction(lastUserMessage);
+                }
+                
+                messageDiv.innerHTML = `
+                    <div>${text}</div>
+                    ${quickReplies}
+                    ${prediction}
+                    <span class="academy-msg-time">${time}</span>
+                `;
+                
+                academyChatMessages.appendChild(messageDiv);
+                academyScrollToBottom();
+            }
+            
+            // // Generate prediction based on last user message
+            function academyGeneratePrediction(lastMessage) {
+                const lowerMessage = lastMessage.toLowerCase();
+                let predictions = [];
+                
+                // Course-related predictions
+                if (lowerMessage.includes('course') || 
+                    lowerMessage.includes('program') || 
+                    lowerMessage.includes('class')) {
+                    
+                    // predictions = [
+                    //     "What are the prerequisites for this course?",
+                    //     "How much does this course cost?",
+                    //     "Who is the tutor for this course?",
+                    //     "What is the schedule for this course?"
+                    // ];
+                }
+                // Payment-related predictions
+                else if (lowerMessage.includes('payment') || 
+                         lowerMessage.includes('fee') || 
+                         lowerMessage.includes('cost') || 
+                         lowerMessage.includes('price')) {
+                    
+                    predictions = [
+                        "Do you offer payment plans?",
+                        "Are there any discounts available?",
+                        "What payment methods do you accept?",
+                        "Is there a registration fee?"
+                    ];
+                }
+                // Tutor-related predictions
+                else if (lowerMessage.includes('tutor') || 
+                         lowerMessage.includes('instructor') || 
+                         lowerMessage.includes('teacher')) {
+                    
+                    predictions = [
+                        "Can I contact the tutor directly?",
+                        "What are the tutor's qualifications?",
+                        "Does the tutor offer private sessions?",
+                        "How experienced is the tutor?"
+                    ];
+                }
+                // Enrollment-related predictions
+                else if (lowerMessage.includes('enroll') || 
+                         lowerMessage.includes('register') || 
+                         lowerMessage.includes('sign up')) {
+                    
+                    // predictions = [
+                    //     "What documents do I need for enrollment?",
+                    //     "Can I enroll online?",
+                    //     "Is there an enrollment deadline?",
+                    //     "What is the enrollment process?"
+                    // ];
+                }
+                
+                // If we have predictions, show them
+                if (predictions.length > 0) {
+                    return `
+                        <div class="academy-prediction-badge">
+                            <strong>You might want to ask:</strong>
+                            ${predictions.map(p => 
+                                `<div class="academy-prediction-item" data-prediction="${p}">${p}</div>`
+                            ).join('')}
+                        </div>
+                    `;
+                }
+                
+                return '';
+            }
+            
+            // Show quick start options
+            function academyShowQuickStartOptions() {
+                const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'academy-msg academy-bot-msg';
+                
+                messageDiv.innerHTML = `
+                    <div>You can quickly ask about:</div>
+                    <div class="academy-quick-replies">
+                        <button class="academy-quick-reply-btn" data-academy-query="Courses">Available Courses</button>
+                        <button class="academy-quick-reply-btn" data-academy-query="Enrollment">Enrollment Process</button>
+                        <button class="academy-quick-reply-btn" data-academy-query="Fees">Course Fees</button>
+                        <button class="academy-quick-reply-btn" data-academy-query="Tutors">Tutor Information</button>
+                    </div>
+                    <span class="academy-msg-time">${time}</span>
+                `;
+                
+                academyChatMessages.appendChild(messageDiv);
+                academyScrollToBottom();
+            }
+            
+            // Show typing indicator
+            function academyShowTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'academy-bot-msg';
+                typingDiv.id = 'academyTypingIndicator';
+                typingDiv.innerHTML = `
+                    <div class="academy-typing-indicator">
+                        <div class="academy-typing-dot"></div>
+                        <div class="academy-typing-dot"></div>
+                        <div class="academy-typing-dot"></div>
+                    </div>
+                `;
+                academyChatMessages.appendChild(typingDiv);
+                academyScrollToBottom();
+            }
+            
+            // Remove typing indicator
+            function academyRemoveTypingIndicator() {
+                const typingIndicator = document.getElementById('academyTypingIndicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+            
+            // Get bot response based on user query
+            function academyGetBotResponse(query) {
+                const lowerQuery = query.toLowerCase();
+                
+                // 1. State-based responses (highest priority)
+                if (academyChatState === 'awaiting_contact_confirmation') {
+                    if (academyMatchPositive(lowerQuery)) {
+                        academyChatState = 'initial';
+                        return `Great! <a href="https://wa.me/${academyCleanPhone(academySelectedTutor.phone)}" 
+                                class="academy-whatsapp-btn" target="_blank">
+                                Click here to message ${academySelectedTutor.name} on WhatsApp
+                            </a>`;
+                    } else {
+                        academyChatState = 'initial';
+                        return 'How else can I help you?';
+                    }
+                }
+                else if (academyChatState === 'awaiting_tutor_selection') {
+                    const tutorMatch = academyCourses.find(course => 
+                        course.tutor.toLowerCase().includes(lowerQuery) || 
+                        course.name.toLowerCase().includes(lowerQuery)
+                    );
+                    
+                    if (tutorMatch) {
+                        academyChatState = 'awaiting_contact_confirmation';
+                        academySelectedTutor = {
+                            name: tutorMatch.tutor,
+                            phone: tutorMatch.tutorPhone,
+                            course: tutorMatch.name
+                        };
+                        return `Would you like to contact ${tutorMatch.tutor} (${tutorMatch.name} tutor) via WhatsApp at ${tutorMatch.tutorPhone}?`;
+                    }
+                    
+                    return "I couldn't find that tutor. Would you like to try again?";
+                }
+                
+// // Add this JavaScript to handle auto-scrolling
+// document.addEventListener('DOMContentLoaded', function() {
+//     const chatMessages = document.getElementById('academyChatMessages');
+    
+//     function scrollToBottom() {
+//         chatMessages.scrollTop = chatMessages.scrollHeight;
+//     }
+    
+//     // Auto-scroll when new messages are added
+//     const observer = new MutationObserver(scrollToBottom);
+//     observer.observe(chatMessages, { childList: true });
+    
+//     // Also scroll to bottom initially
+//     scrollToBottom();
+    
+//     // Your existing chat launcher and close functionality...
+//     document.getElementById('academyChatLauncher').addEventListener('click', function() {
+//         document.getElementById('academyChatContainer').classList.add('active');
+//     });
+    
+//     document.getElementById('academyChatClose').addEventListener('click', function() {
+//         document.getElementById('academyChatContainer').classList.remove('active');
+//     });
+// });
+
+                // 2. Course-specific questions
+                const courseMatch = academyMatchCourse(lowerQuery);
+                if (courseMatch) {
+                    return academyFormatCourseResponse(courseMatch);
+                }
+                
+                // 3. Tutor contact request
+                if (academyMatchTutorRequest(lowerQuery)) {
+                    academyChatState = 'awaiting_tutor_selection';
+                    return 'Would you like to contact a specific tutor? Here are our course tutors:';
+                }
+                
+                // 4. Greeting responses
+                if (academyMatchGreeting(lowerQuery)) {
+                    return "Welcome back! How can I assist you today? You can ask about courses, enrollment, payments, or tutor contacts.";
+                }
+                
+                // 5. FAQ matching
+                const faqMatch = academyMatchFAQ(lowerQuery);
+                if (faqMatch) return faqMatch;
+                
+                // 6. Ultimate fallback
+                return "For this, you might want to contact '+254741261579' or email academybrits@gmail.com for more information. Thankyou";
+            }
+            
+            // Match positive responses (yes, yeah, sure, etc.)
+            function academyMatchPositive(query) {
+                const positives = ["yes", "yeah", "yep", "sure", "ok", "okay", "definitely", "absolutely"];
+                return positives.some(p => query.includes(p));
+            }
+            
+            // Match tutor contact request
+            function academyMatchTutorRequest(query) {
+                const tutorKeywords = ["tutor", "instructor", "teacher", "lecturer", "contact tutor", "speak to teacher"];
+                return tutorKeywords.some(k => query.includes(k));
+            }
+            
+            // Match greetings
+            function academyMatchGreeting(query) {
+                const greetings = ["hi", "hello", "hey", "good morning", "good afternoon", "good evening"];
+                return greetings.some(g => query.includes(g));
+            }
+            
+            // Enhanced course matching
+            function academyMatchCourse(query) {
+                // First try direct name match
+                let match = academyCourses.find(c => 
+                    query.includes(c.name.toLowerCase()) || 
+                    query.includes(c.tutor.toLowerCase().split(" ")[0])
+                );
+                
+                if (!match) {
+                    // Try keyword associations
+                    const courseKeywords = {
+                        "web": "Web Development",
+                        "data": "Data Science",
+                        "cyber": "Cybersecurity",
+                        "graphic": "Graphics Design & Architecture",
+                        "social": "YouTube, TikTok Monetization & Social Media Management",
+                        "virtual": "Virtual Assistant, Digital Marketing & Chat Moderation"
+                    };
+                    
+                    for (const [keyword, courseName] of Object.entries(courseKeywords)) {
+                        if (query.includes(keyword)) {
+                            match = academyCourses.find(c => c.name === courseName);
+                            if (match) break;
+                        }
+                    }
+                }
+                
+                return match;
+            }
+            
+            // Enhanced FAQ matching
+            function academyMatchFAQ(query) {
+                // Normalize query: remove common stopwords
+                const stopwords = ["the", "and", "how", "do", "what", "where", "when", "why"];
+                const queryWords = query.split(/\W+/)
+                    .filter(word => word.length > 2 && !stopwords.includes(word))
+                    .map(word => word.toLowerCase());
+                
+                // Find FAQ with highest match score
+                let bestMatch = null;
+                let highestScore = 0;
+                
+                for (const faq of academyFAQs) {
+                    const faqWords = faq.question.toLowerCase().split(/\W+/);
+                    let score = 0;
+                    
+                    // Count matching root words
+                    for (const qWord of queryWords) {
+                        if (faqWords.some(fWord => fWord.startsWith(qWord) || qWord.startsWith(fWord))) {
+                            score++;
+                        }
+                    }
+                    
+                    // Bonus for consecutive word matches
+                    const queryPhrase = queryWords.join(" ");
+                    if (faq.question.toLowerCase().includes(queryPhrase)) {
+                        score += 2;
+                    }
+                    
+                    if (score > highestScore) {
+                        highestScore = score;
+                        bestMatch = faq;
+                    }
+                }
+                
+                return highestScore >= 2 ? bestMatch.answer : null;
+            }
+            
+            // Format course response
+            function academyFormatCourseResponse(course) {
+                return `
+                    <div class="academy-course-badge">${course.name}</div>
+                    <div class="academy-info-item"><strong>Description:</strong> ${course.description}</div>
+                    <div class="academy-info-item"><strong>Duration:</strong> ${course.duration}</div>
+                    <div class="academy-info-item"><strong>Schedule:</strong> ${course.schedule}</div>
+                    <div class="academy-info-item"><strong>Fee:</strong> ${course.fee}</div>
+                    <div class="academy-info-item"><strong>Tutor:</strong> ${course.tutor}</div>
+                    <div class="academy-info-item"><strong>Prerequisites:</strong> ${course.prerequisites}</div>
+                    <br>
+                    Would you like to contact ${course.tutor} via WhatsApp at ${course.tutorPhone}?
+                `;
+            }
+            
+            // Open WhatsApp
+            function academyOpenWhatsApp(phone) {
+                const cleanPhone = academyCleanPhone(phone);
+                window.open(`https://wa.me/${cleanPhone}`, '_blank');
+            }
+            
+            // Clean phone number for WhatsApp link
+            function academyCleanPhone(phone) {
+                return phone.replace(/\D/g, '');
+            }
+            
+            // Scroll to bottom of chat
+            function academyScrollToBottom() {
+                academyChatMessages.scrollTop = academyChatMessages.scrollHeight;
+            }
+        });
+    </script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
