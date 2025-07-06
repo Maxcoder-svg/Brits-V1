@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Registration</title>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @keyframes fall {
+      0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #0a0e2a, #1a103d);
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+    
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle 5s infinite;
+    }
+    
+    .shooting-star {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: linear-gradient(to right, rgba(255,255,255,0), #fff);
+      border-radius: 50%;
+      animation: fall linear infinite;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+    
+    .modal {
+      display: block;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+    
+    .modal-content {
+      background: linear-gradient(145deg, #1e1e2f, #2a2a40);
+      margin: 2% auto;
+      padding: 25px 35px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .modal-content::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .modal-content::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+    
+    .modal-content::-webkit-scrollbar-thumb {
+      background: linear-gradient(#00b4db, #0083b0);
+      border-radius: 10px;
+    }
+    
+    .modal-header,
+    .modal-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .modal-header h3 {
+      margin: 0;
+      color: 0 0 0 2px rgba(0, 180, 219, 0.2);
+      font-size: 24px;
+      font-weight: 600;
+      background: linear-gradient(to right, #00b4db, #0083b0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.7);
+      transition: all 0.3s;
+    }
+    
+    .close-modal:hover {
+      color: #22e5f3;
+      transform: rotate(90deg);
+    }
+    
+    .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .form-group {
+      flex: 1;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: rgba(205, 205, 205, 0.8);
+      font-size: 14px;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 16px;
+      box-sizing: border-box;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      color: #37cff1;
+      transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: #00b4db;
+      box-shadow: 0 0 0 2px rgba(0, 180, 219, 0.2);
+      background: rgba(255, 255, 255, 0.15);
+    }
+    
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 20px;
+    }
+    
+    .btn {
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(45deg, #00b4db, #0083b0);
+      color: 0 0 0 2px rgba(0, 180, 219, 0.2);
+      box-shadow: 0 4px 15px rgba(0, 180, 219, 0.3);
+    }
+    
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: 0 0 0 2px rgba(0, 180, 219, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(45deg, #0083b0, #00b4db);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 180, 219, 0.4);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .btn-loading {
+      display: none;
+    }
+    
+    .floating-label {
+      position: relative;
+    }
+    
+    .floating-label label {
+      position: absolute;
+      top: 14px;
+      left: 15px;
+      color: rgba(255, 255, 255, 0.6);
+      transition: 0.2s ease all;
+      pointer-events: none;
+      background: #1e1e2f;
+      padding: 0 5px;
+    }
+    
+    .floating-label input:focus + label,
+    .floating-label input:not(:placeholder-shown) + label {
+      top: -10px;
+      font-size: 12px;
+      color: #00b4db;
+      background: #1e1e2f;
+      padding: 0 5px;
+      left: 10px;
+    }
+    
+    input[type="checkbox"] {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      background: transparent;
+      position: relative;
+      vertical-align: middle;
+      margin-right: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    input[type="checkbox"]:checked {
+      background: #00b4db;
+      border-color: #00b4db;
+    }
+    
+    input[type="checkbox"]:checked::after {
+      content: "✓";
+      position: absolute;
+      color: 0 0 0 2px rgba(0, 180, 219, 0.2);
+      font-size: 12px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .terms-label {
+      display: inline-block;
+      vertical-align: middle;
+      width: calc(100% - 30px);
+      color: rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+    }
+    
+    .terms-label a {
+      color: #00b4db;
+      text-decoration: none;
+    }
+    
+    .terms-label a:hover {
+      text-decoration: underline;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+    
+    .error-shake {
+      animation: shake 0.5s;
+    }
+    
+    .error-border {
+      border-color: #ff3860 !important;
+    }
+    
+    .error-text {
+      color: #ff3860;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+    
+    .modal-footer {
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="registration-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Student Registration</h3>
+        <button class="close-modal" onclick="closeModal('registration-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="registration-form" method="post">
+          <div class="form-row">
+            <div class="form-group floating-label">
+              <input type="text" id="first-name" class="form-control" placeholder=" " required>
+              <label for="first-name">First Name</label>
+              <div class="error-text" id="first-name-error">Please enter your first name</div>
+            </div>
+            <div class="form-group floating-label">
+              <input type="text" id="middle-name" class="form-control" placeholder=" ">
+              <label for="middle-name">Middle Name (Optional)</label>
+            </div>
+          </div>
+          <div class="form-group floating-label">
+            <input type="text" id="last-name" class="form-control" placeholder=" " required>
+            <label for="last-name">Last Name</label>
+            <div class="error-text" id="last-name-error">Please enter your last name</div>
+          </div>
+          <div class="form-group floating-label">
+            <input type="email" id="email" class="form-control" placeholder=" " required>
+            <label for="email">Email Address</label>
+            <div class="error-text" id="email-error">Please enter a valid email address</div>
+          </div>
+          <div class="form-group floating-label">
+            <input type="tel" id="phone" class="form-control" placeholder=" " required>
+            <label for="phone">Phone Number</label>
+            <div class="error-text" id="phone-error">Please enter your phone number</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="course">Select Course</label>
+              <select id="course" class="form-control" required>
+                <option value="" disabled selected>Choose a course</option>
+                <option value="WEB DEVELOPMENT">WEB DEVELOPMENT</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Cybersecurity">Cybersecurity</option>
+                <option value="GRAPHICS DESIGN">GRAPHICS DESIGN</option>
+                <option value="Social Media Management">Social Media Management</option>
+              </select>
+              <div class="error-text" id="course-error">Please select a course</div>
+            </div>
+            <div class="form-group">
+              <label for="level">Course Level</label>
+              <select id="level" class="form-control" required>
+                <option value="" disabled selected>Select level</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+              <div class="error-text" id="level-error">Please select a course level</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="terms" required>
+            <label for="terms" class="terms-label">I agree to Brits Academy's <a href="#">Terms and Conditions</a></label>
+            <div class="error-text" id="terms-error">You must accept the terms and conditions</div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('registration-modal')">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+        <button class="btn btn-primary" onclick="validateAndProceed()">
+          <span class="btn-text"><i class="fas fa-arrow-right"></i> Proceed to Payment</span>
+          <span class="btn-loading"><i class="fas fa-spinner fa-spin"></i> Processing...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Create stars and shooting stars
+    function createStars() {
+      const body = document.body;
+      const starsCount = 100;
+      const shootingStarsCount = 3;
+      
+      // Create small stars
+      for (let i = 0; i < starsCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        
+        // Random size between 1px and 3px
+        const size = Math.random() * 2 + 1;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        
+        // Random position
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.top = `${Math.random() * 100}vh`;
+        
+        // Random twinkle delay
+        star.style.animationDelay = `${Math.random() * 5}s`;
+        
+        body.appendChild(star);
+      }
+      
+      // Create shooting stars
+      for (let i = 0; i < shootingStarsCount; i++) {
+        const shootingStar = document.createElement('div');
+        shootingStar.className = 'shooting-star';
+        
+        // Random size
+        const width = Math.random() * 4 + 2;
+        const height = Math.random() * 4 + 2;
+        shootingStar.style.width = `${width}px`;
+        shootingStar.style.height = `${height}px`;
+        
+        // Random position
+        shootingStar.style.left = `${Math.random() * 100}vw`;
+        
+        // Random animation duration (speed)
+        const duration = Math.random() * 3 + 2;
+        shootingStar.style.animationDuration = `${duration}s`;
+        
+        // Random delay before next animation
+        shootingStar.style.animationDelay = `${Math.random() * 10}s`;
+        
+        body.appendChild(shootingStar);
+        
+        // Make shooting stars repeat
+        setInterval(() => {
+          shootingStar.style.left = `${Math.random() * 100}vw`;
+          shootingStar.style.top = '0';
+          shootingStar.style.animationDuration = `${Math.random() * 3 + 2}s`;
+        }, (duration + Math.random() * 5) * 1000);
+      }
+    }
+    
+    // Initialize EmailJS
+    emailjs.init("uO6yLWKAtkCxMCgUM"); // Your user ID
+    
+    // Close modal function
+    function closeModal(id) {
+      document.getElementById(id).style.display = "none";
+    }
+    
+    // Validate email format
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+    
+    // Validate phone number (accepts +254... or 254... or 07... or 7...)
+    function validatePhone(phone) {
+      const re = /^\+?[0-9]{10,15}$/;
+      return re.test(phone);
+    }
+    
+     document.addEventListener("DOMContentLoaded", function () {
+    const phoneInput = document.getElementById("phone");
+
+    phoneInput.addEventListener("input", function () {
+      let value = phoneInput.value.replace(/\D/g, ""); // Remove non-digits
+
+      if (value.startsWith("07")) {
+        value = "+254" + value.slice(1); // Replace 0 with +254
+      } else if (value.startsWith("7")) {
+        value = "+254" + value; // Assume missing 0
+      } else if (value.startsWith("254")) {
+        value = "+" + value; // Add + if missing
+      } else if (!value.startsWith("+254")) {
+        value = "+254" + value; // Fallback
+      }
+
+      // Prevent multiple +254s
+      if (!value.startsWith("+254")) {
+        value = "+254" + value.replace(/^(\+)?254?/, "");
+      }
+
+      phoneInput.value = value;
+    });
+  });
+
+    // Main validation and submission function
+    function validateAndProceed() {
+      const form = document.getElementById('registration-form');
+      const submitBtn = document.querySelector('.btn-primary');
+      const btnText = submitBtn.querySelector('.btn-text');
+      const spinner = submitBtn.querySelector('.btn-loading');
+      const inputs = form.querySelectorAll('input[required], select[required]');
+      let isValid = true;
+      
+      // Reset error states
+      document.querySelectorAll('.error-text').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.error-border').forEach(el => el.classList.remove('error-border'));
+      document.querySelectorAll('.error-shake').forEach(el => el.classList.remove('error-shake'));
+      
+      // Validate each field
+      inputs.forEach(input => {
+        const errorId = `${input.id}-error`;
+        const errorElement = document.getElementById(errorId);
+        
+        if (!input.value) {
+          input.classList.add('error-border');
+          input.parentElement.classList.add('error-shake');
+          if (errorElement) errorElement.style.display = 'block';
+          isValid = false;
+        } else {
+          // Special validation for email
+          if (input.id === 'email' && !validateEmail(input.value)) {
+            input.classList.add('error-border');
+            input.parentElement.classList.add('error-shake');
+            if (errorElement) {
+              errorElement.textContent = 'Please enter a valid email address';
+              errorElement.style.display = 'block';
+            }
+            isValid = false;
+          }
+          
+          // Special validation for phone
+          if (input.id === 'phone' && !validatePhone(input.value)) {
+            input.classList.add('error-border');
+            input.parentElement.classList.add('error-shake');
+            if (errorElement) {
+              errorElement.textContent = 'Please enter a valid phone number (10-15 digits)';
+              errorElement.style.display = 'block';
+            }
+            isValid = false;
+          }
+        }
+      });
+      
+      // Validate terms checkbox
+      const terms = document.getElementById('terms');
+      const termsError = document.getElementById('terms-error');
+      if (!terms.checked) {
+        terms.parentElement.classList.add('error-shake');
+        termsError.style.display = 'block';
+        isValid = false;
+      }
+      
+      if (!isValid) return;
+      
+      // Show loading state
+      btnText.style.display = "none";
+      spinner.style.display = "inline-block";
+      
+      // Gather form data
+      const firstName = document.getElementById('first-name').value.trim();
+      const middleName = document.getElementById('middle-name').value.trim();
+      const lastName = document.getElementById('last-name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const course = document.getElementById('course').value;
+      const level = document.getElementById('level').value;
+      const termsAccepted = terms.checked ? "Accepted" : "Not Accepted";
+      
+      // Calculate amount based on level
+      const amountMap = { beginner: 10000, intermediate: 15000, advanced: 20000 };
+      const amount = amountMap[level] || 10000;
+      
+      // Create full name
+      const fullName = middleName 
+        ? `${firstName} ${middleName} ${lastName}`
+        : `${firstName} ${lastName}`;
+      
+      // Prepare email template parameters
+      const templateParams = {
+        first_name: firstName,
+        middle_name: middleName || "N/A",
+        last_name: lastName,
+        email: email,
+        phone: phone,
+        course: course,
+        level: level,
+        terms: termsAccepted,
+        amount: amount
+      };
+      
+      console.log("Sending to EmailJS:", templateParams); // Debug output
+      
+      // Send email via EmailJS
+      emailjs.send("service_7b1ee5s", "template_t34d75g", templateParams)
+        .then(() => {
+          alert("Registration successful! You'll receive a confirmation email shortly.");
+          form.reset();
+        })
+        .catch((error) => {
+          alert("Failed to send registration email. Please try again. Error: " + error.text);
+        })
+        .finally(() => {
+          // Redirect to payment page regardless of email success
+          setTimeout(() => {
+            window.location.href = `payment-instructions.html?firstName=${encodeURIComponent(firstName)}&fullName=${encodeURIComponent(fullName)}&course=${encodeURIComponent(course)}&level=${encodeURIComponent(level)}&amount=${amount}`;
+          }, 1500);
+        });
+    }
+    
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      createStars();
+      
+      // Add input event listeners to clear error states when typing
+      document.querySelectorAll('input, select').forEach(input => {
+        input.addEventListener('input', function() {
+          this.classList.remove('error-border');
+          const errorId = `${this.id}-error`;
+          const errorElement = document.getElementById(errorId);
+          if (errorElement) errorElement.style.display = 'none';
+        });
+      });
+      
+      // Terms checkbox error clearing
+      document.getElementById('terms').addEventListener('change', function() {
+        if (this.checked) {
+          document.getElementById('terms-error').style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -985,25 +985,25 @@ function renderCourses() {
         coursesContainer.appendChild(courseCard);
     });
 }
-  // Load student data from backend API
-   async function loadStudents(courseId) {
-    try {
-        const response = await fetch(`/api/students?course=${courseId}`);  // Using backticks (`)
-        const data = await response.json();
-        courses[courseId].students = data;
-        updateDashboard();
-    } catch (error) {
-        console.error("Error loading students:", error);
-        // Optional: Add user-friendly error handling here
-    }
-    if (!courseId) {
-    console.error("No courseId provided");
-    return;
-}
-if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-}
-}
+//   // Load student data from backend API
+//    async function loadStudents(courseId) {
+//     try {
+//         const response = await fetch(`/api/students?course=${courseId}`);  // Using backticks (`)
+//         const data = await response.json();
+//         courses[courseId].students = data;
+//         updateDashboard();
+//     } catch (error) {
+//         console.error("Error loading students:", error);
+//         // Optional: Add user-friendly error handling here
+//     }
+//     if (!courseId) {
+//     console.error("No courseId provided");
+//     return;
+// }
+// if (!response.ok) {
+//     throw new Error(`HTTP error! status: ${response.status}`);
+// }
+// }
 
 
     // Update all course cards with accurate counts
@@ -1273,62 +1273,159 @@ function hideAllSections() {
         section.style.display = 'none';
     });
 }
-
 async function saveToDatabase(studentData) {
-    try {
-        const response = await fetch('/api/enroll', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(studentData)
-        });
-        
-        const data = await response.json();
-        console.log("Database save successful:", data);
-    } catch (error) {
-        console.error("Error saving to database:", error);
+  try {
+    const response = await fetch('http://localhost:3000/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(studentData)
+    });
+
+    if (response.ok) {
+      const savedStudent = await response.json();
+      console.log('✅ Student saved:', savedStudent);
+    } else {
+      console.error('❌ Failed to save student data');
     }
+  } catch (err) {
+    console.error('⚠️ Error connecting to backend:', err);
+  }
 }
+
+
+
+// async function proceedToPayment() {
+//   // Disable button to prevent duplicate submissions
+//   const btn = document.querySelector('.btn-primary');
+//   btn.disabled = true;
+//   btn.querySelector('.btn-text').textContent = 'Processing...';
+
+//   // Get form values (your existing code)
+//   const firstName = document.getElementById('first-name').value;
+//   // ... (rest of your data collection logic)
+
+//   try {
+//     // Save to Firestore first
+//     const saved = await saveToDatabase(studentData);
+    
+//     if (saved) {
+//       // Only redirect if save was successful
+//       window.location.href = `payment-instructions.html?receiptId=${encodeURIComponent(receiptId)}`;
+//     }
+//   } finally {
+//     btn.disabled = false;
+//     btn.querySelector('.btn-text').textContent = 'Proceed to Payment';
+//   }
+// }
+
+// async function proceedToPayment() {
+//   // Disable button to prevent duplicate submissions
+//   const btn = document.querySelector('.btn-primary');
+//   btn.disabled = true;
+//   btn.querySelector('.btn-text').textContent = 'Processing...';
+
+//   // Get form values (your existing code)
+//   const firstName = document.getElementById('first-name').value;
+//   // ... (rest of your data collection logic)
+
+//   try {
+//     // Save to Firestore first
+//     const saved = await saveToDatabase(studentData);
+    
+//     if (saved) {
+//       // Only redirect if save was successful
+//       window.location.href = `payment-instructions.html?receiptId=${encodeURIComponent(receiptId)}`;
+//     }
+//   } finally {
+//     btn.disabled = false;
+//     btn.querySelector('.btn-text').textContent = 'Proceed to Payment';
+//   }
+// }
 
 // In proceedToPayment()
+// async function proceedToPayment() {
+//     // Get form values
+//     const firstName = document.getElementById('first-name').value;
+//     const lastName = document.getElementById('last-name').value;
+//     const email = document.getElementById('email').value;
+//     const phone = document.getElementById('phone').value;
+//     const courseSelect = document.getElementById('course');
+//     const levelSelect = document.getElementById('level');
+    
+//     const course = courseSelect.options[courseSelect.selectedIndex].text;
+//     const level = levelSelect.options[levelSelect.selectedIndex].text.split(' ')[0];
+//     const amount = levelSelect.value === 'beginner' ? 10000 : 
+//                   levelSelect.value === 'intermediate' ? 15000 : 20000;
+    
+//     // Generate receipt ID
+//     const now = new Date();
+//     const receiptId = `TS101-${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+    
+   
+//   // Save to Firestore
+//   try {
+//     await db.collection("registrations").add({
+//       firstName,
+//       middleName,
+//       lastName,
+//       email,
+//       phone,
+//       course,
+//       level,
+//       amount,
+//       status: "Pending",
+//       createdAt: firebase.firestore.FieldValue.serverTimestamp()
+//     });
+    
+//     // Redirect to payment only after Firestore save succeeds
+//     window.location.href = `payment-instructions.html?course=${encodeURIComponent(course)}&level=${encodeURIComponent(level)}&amount=${amount}`;
+//   } catch (error) {
+//     console.error("Error saving registration:", error);
+//     alert("Registration failed. Please try again.");
+//   }
+  
+  
+//   // Save to database
+//   saveToDatabase(studentData);
+  
+//   // Redirect to payment instructions
+//   window.location.href = `payment-instructions.html?course=${encodeURIComponent(course)}&level=${encodeURIComponent(level)}&amount=${amount}`;
+// }
 function proceedToPayment() {
-    // Get form values
-    const firstName = document.getElementById('first-name').value;
-    const lastName = document.getElementById('last-name').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
-    const courseSelect = document.getElementById('course');
-    const levelSelect = document.getElementById('level');
-    
-    const course = courseSelect.options[courseSelect.selectedIndex].text;
-    const level = levelSelect.options[levelSelect.selectedIndex].text.split(' ')[0];
-    const amount = levelSelect.value === 'beginner' ? 10000 : 
-                  levelSelect.value === 'intermediate' ? 15000 : 20000;
-    
-    // Generate receipt ID
-    const now = new Date();
-    const receiptId = `TS101-${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
-    
-    // Prepare student data
-    const studentData = {
-        firstName,
-        lastName,
-        email,
-        phone,
-        course,
-        level,
-        amount,
-        receiptId,
-        paymentStatus: 'Pending'
-    };
-    
-    // Save to database
-    saveToDatabase(studentData);
-    
-    // Redirect to payment instructions
-    window.location.href = `payment-instructions.html?course=${encodeURIComponent(course)}&level=${encodeURIComponent(level)}&amount=${amount}`;
+  const firstName = document.getElementById('first-name').value;
+  const lastName = document.getElementById('last-name').value;
+  const email = document.getElementById('email').value;
+  const phone = document.getElementById('phone').value;
+  const courseSelect = document.getElementById('course');
+  const levelSelect = document.getElementById('level');
+
+  const course = courseSelect.options[courseSelect.selectedIndex].text;
+  const level = levelSelect.options[levelSelect.selectedIndex].text.split(' ')[0];
+  const amount = levelSelect.value === 'beginner' ? 10000 : 
+                 levelSelect.value === 'intermediate' ? 15000 : 20000;
+
+  const now = new Date();
+  const receiptId = `TS101-${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+
+  const studentData = {
+    firstName,
+    lastName,
+    email,
+    phone,
+    course,
+    level,
+    amount,
+    receiptId,
+    paymentStatus: 'Pending'
+  };
+
+  console.log('📨 Submitting student data:', studentData); // ADD THIS
+
+  saveToDatabase(studentData); // Important
+
+  window.location.href = `payment-instructions.html?course=${encodeURIComponent(course)}&level=${encodeURIComponent(level)}&amount=${amount}`;
 }
+
 
 // Modal functions
 function openModal(modalId) {
@@ -1347,15 +1444,15 @@ function openRegistration() {
 
 function proceedToPayment() {
     // Get form values
-    const firstName = document.getElementById('first-name').value;
-    const lastName = document.getElementById('last-name').value;
-    const courseSelect = document.getElementById('course');
-    const levelSelect = document.getElementById('level');
+    // const firstName = document.getElementById('first-name').value;
+    // const lastName = document.getElementById('last-name').value;
+    // const courseSelect = document.getElementById('course');
+    // const levelSelect = document.getElementById('level');
     
-    const course = courseSelect.options[courseSelect.selectedIndex].text;
-    const level = levelSelect.options[levelSelect.selectedIndex].text.split(' ')[0];
-    const amount = levelSelect.value === 'beginner' ? 10000 : 
-                  levelSelect.value === 'intermediate' ? 15000 : 20000;
+    // const course = courseSelect.options[courseSelect.selectedIndex].text;
+    // const level = levelSelect.options[levelSelect.selectedIndex].text.split(' ')[0];
+    // const amount = levelSelect.value === 'beginner' ? 10000 : 
+    //               levelSelect.value === 'intermediate' ? 15000 : 20000;
 
     // Redirect to payment instructions page
     window.location.href = `payment-instructions.html?course=${encodeURIComponent(course)}&level=${encodeURIComponent(level)}&amount=${amount}`;
@@ -1384,59 +1481,59 @@ function sendPaymentRequest() {
             openModal('confirm-modal');
             
             // Set receipt number in confirmation modal
-            document.getElementById('receipt-number').value = currentRegistration.receipt;
+            // document.getElementById('receipt-number').value = currentRegistration.receipt;
             
-            // Show message
-            document.getElementById('confirm-message').innerHTML = `
-                <p style="color: var(--accent);">Check your phone to complete payment</p>
-                <p style="color: #94a3b8; font-size: 0.9rem;">
-                    We've sent a payment request to ${phone}. Please complete the transaction and enter your receipt number above.
-                </p>
-            `;
+            // // Show message
+            // document.getElementById('confirm-message').innerHTML = `
+            //     <p style="color: var(--accent);">Check your phone to complete payment</p>
+            //     <p style="color: #94a3b8; font-size: 0.9rem;">
+            //         We've sent a payment request to ${phone}. Please complete the transaction and enter your receipt number above.
+            //     </p>
+            // `;
         }, 2000);
     }, 1000);
 }
 
-function confirmPayment() {
-    const receiptNumber = document.getElementById('receipt-number').value;
+// function confirmPayment() {
+//     const receiptNumber = document.getElementById('receipt-number').value;
     
-    if (!receiptNumber) {
-        alert('Please enter your receipt number');
-        return;
-    }
+//     if (!receiptNumber) {
+//         alert('Please enter your receipt number');
+//         return;
+//     }
     
-    if (receiptNumber !== currentRegistration.receipt) {
-        document.getElementById('confirm-message').innerHTML = `
-            <p style="color: var(--danger);">Invalid receipt number. Please try again.</p>
-        `;
-        return;
-    }
-    async function sendSTK() {
-  const phone = document.getElementById("phone").value;
-  const amount = document.getElementById("amount").value;
+//     if (receiptNumber !== currentRegistration.receipt) {
+//         document.getElementById('confirm-message').innerHTML = `
+//             <p style="color: var(--danger);">Invalid receipt number. Please try again.</p>
+//         `;
+//         return;
+//     }
+//     async function sendSTK() {
+//   const phone = document.getElementById("phone").value;
+//   const amount = document.getElementById("amount").value;
 
-  const res = await fetch('/api/stkpush', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ phone, amount })
-  });
+//   const res = await fetch('/api/stkpush', {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({ phone, amount })
+//   });
 
-  const data = await res.json();
-  console.log(data);
-  alert("Payment prompt sent. Check your phone.");
-}
+//   const data = await res.json();
+//   console.log(data);
+//   alert("Payment prompt sent. Check your phone.");
+// }
 
-    // Show success message
-    document.getElementById('confirm-message').innerHTML = `
-        <p style="color: var(--success);">Payment confirmed successfully!</p>
-    `;
+//     // Show success message
+//     document.getElementById('confirm-message').innerHTML = `
+//         <p style="color: var(--success);">Payment confirmed successfully!</p>
+//     `;
     
-    // Proceed to schedule selection
-    setTimeout(() => {
-        closeModal('confirm-modal');
-        openModal('schedule-modal');
-    }, 1500);
-}
+//     // Proceed to schedule selection
+//     setTimeout(() => {
+//         closeModal('confirm-modal');
+//         openModal('schedule-modal');
+//     }, 1500);
+// }
 
 function confirmSchedule() {
     const selectedSchedule = document.querySelector('input[name="schedule"]:checked');
@@ -1666,12 +1763,28 @@ function validateAndProceed() {
         const amountMap = { beginner: 10000, intermediate: 15000, advanced: 20000 };
         const amount = amountMap[level] || 10000;
 
-        // Store names properly
-                const fullName = middleName 
-            ? `${firstName} ${middleName} ${lastName}`
-            : `${firstName} ${lastName}`;
-        localStorage.setItem('fullName', fullName);
-        localStorage.setItem('firstName', firstName);
+          if (!form.checkValidity()) {
+              form.reportValidity();
+              return;
+            }
+            
+            // Store names properly
+                    const fullName = middleName 
+                ? `${firstName} ${middleName} ${lastName}`
+                : `${firstName} ${lastName}`;
+            localStorage.setItem('fullName', fullName);
+            localStorage.setItem('firstName', firstName);
+            emailjs.sendForm('service_7b1ee5s', 'template_t34d75g', form)
+            .then(function(response) {
+        alert("Registration data sent successfully to Brits Academy!");
+        console.log("SUCCESS!", response.status, response.text);
+        form.reset(); // optional
+        closeModal('registration-modal');
+      }, function(error) {
+        alert("Failed to send data. Please try again.");
+        console.log("FAILED...", error);
+      });
+
 
         // Redirect to payment instructions
         setTimeout(() => {
@@ -1697,6 +1810,18 @@ function validateAndProceed() {
     }
 }
 
+ const firebaseConfig = {
+  apiKey: "AIzaSyAVfy2oy892QqkgPZ0wsYIe7vdyuu2VgiE",
+  authDomain: "brits-academy.firebaseapp.com",
+  projectId: "brits-academy",
+  storageBucket: "brits-academy.firebasestorage.app",
+  messagingSenderId: "449738730487",
+  appId: "1:449738730487:web:b887df0a7470076a4cdcf2",
+  measurementId: "G-7S02WLG1M3"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
         // ===== CHATBOT FUNCTIONALITY ===== //
         const chatbotLauncher = document.getElementById('chatbotLauncher');

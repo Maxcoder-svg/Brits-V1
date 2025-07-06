@@ -6,6 +6,12 @@
     <title>BRITS ACADEMY - Learning Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        (function() {
+            emailjs.init("uO6yLWKAtkCxMCgUM");
+        })();
+    </script>
 </head>
 <body>
     <!-- Logo Banner Section -->
@@ -65,7 +71,7 @@
                     <h1>Master Technical Skills for the Digital Age</h1>
                     <p>Join our community of learners and professionals to master in-demand technical skills. From coding to cybersecurity, we provide comprehensive resources to boost your career.</p>
                     <div class="hero-btns">
-                        <a href="#" class="btn btn-primary" onclick="openRegistration()">Get Started</a>
+                        <a href="email2.html" class="btn btn-primary" >Get Started</a>
                         <a href="#" class="btn btn-secondary" onclick="showCourses()">Explore Courses</a>
                     </div>
                 </div>
@@ -74,7 +80,7 @@
                     <div class="futuristic-hero-visual" style="position: relative; width: 320px; height: 320px; margin: 0 auto;">
                     <div class="futuristic-hero-visual" style="position: relative; width: 320px; height: 320px; margin: 0 auto;">
                         <!-- Animated SVG Glow Rings -->
-                        <svg width="320" height="320" viewBox="0 0 320 320" style="position: absolute; top: 0; left: 0; z-index: 1;">
+                        <svg width="320" height="320" viewBox="0 0 320 320" style="position: absolute; top: 0;  left: 0; z-index: 1;">
                             <defs>
                                 <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
                                     <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.7"/>
@@ -224,12 +230,12 @@
                             </div>
                             <div class="stat-item">
                                 <h3>96%</h3>
-                                <p>Completion Rate</p>
+                                <p>Completion Rate</p>seeeeeeeeeeeeee
                             </div>
                         </div>
                         
                         <div class="hero-btns">
-                            <a href="#" class="btn btn-primary" onclick="openRegistration()">Enroll Now</a>
+                            <a href="email2.html" class="btn btn-primary">Enroll Now</a>
                             <a href="#" class="btn btn-secondary" onclick="showCourses()">Back to Courses</a>
                         </div>
                     </div>
@@ -563,7 +569,7 @@ https://github.com/BritsAcademy
             </div>
         </div>
     </footer>
-
+<!-- 
     <div id="registration-modal" class="modal" style="display: none;">
     <div class="modal-overlay" onclick="closeModal('registration-modal')"></div>
     <div class="modal-content">
@@ -650,13 +656,234 @@ https://github.com/BritsAcademy
             </button>
         </div>
     </div>
-</div>
+</div> -->
+ <!-- Registration Modal -->
+    <div id="registration-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Student Registration</h3>
+                <button class="close-modal" onclick="closeModal('registration-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="registration-form" method="post">
+                    <div class="form-row">
+                        <div class="form-group floating-label">
+                            <input type="text" id="first-name" class="form-control" placeholder=" " required>
+                            <label for="first-name">First Name</label>
+                        </div>
+                        <div class="form-group floating-label">
+                            <input type="text" id="middle-name" class="form-control" placeholder=" ">
+                            <label for="middle-name">Middle Name (Optional)</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group floating-label">
+                        <input type="text" id="last-name" class="form-control" placeholder=" " required>
+                        <label for="last-name">Last Name</label>
+                    </div>
+                    
+                    <div class="form-group floating-label">
+                        <input type="email" id="email" class="form-control" placeholder=" " required>
+                        <label for="email">Email Address</label>
+                    </div>
+                    
+                    <div class="form-group floating-label">
+                        <input type="tel" id="phone" class="form-control" placeholder=" " required>
+                        <label for="phone">Phone Number</label>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="course">Select Course</label>
+                            <select id="course" class="form-control" required>
+                                <option value="" disabled selected>Choose a course</option>
+                                <option value="web-dev">WEB DEVELOPMENT</option>
+                                <option value="data-science">Data Science</option>
+                                <option value="cybersecurity">Cybersecurity</option>
+                                <option value="graphics-design">GRAPHICS DESIGN</option>
+                                <option value="social-media">Social Media Management</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="level">Course Level</label>
+                            <select id="level" class="form-control" required>
+                                <option value="" disabled selected>Select level</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">I agree to Brits Academy's Terms and Conditions</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('registration-modal')">Cancel</button>
+                <button class="btn btn-primary" onclick="validateAndProceed()">
+                <span class="btn-text">Proceed to Payment</span>
+                    <span class="btn-loading" style="display:none;">
+                        <i class="fas fa-spinner fa-spin"></i> Sending...
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
 
- <!-- Firebase UI container for Admin login -->
-    <div id="firebaseui-auth-container" style="display: none;"></div>
-     
-    <!-- Firebase SDK -->
+
      <!-- <iframe src="https://app.edcafe.ai/chatbots/68568d1410c6ad0621d6faf7" title=Brits Academy Chatbot width="100%" height="100%" style="border: none;"></iframe> -->
+       <script>
+        // Initialize EmailJS
+        (function() {
+            emailjs.init("uO6yLWKAtkCxMCgUM")
+                .then(() => {
+                    document.getElementById('emailjsStatus').innerHTML = 
+                        '<i class="fas fa-check-circle"></i> <span>EmailJS Ready!</span>';
+                    document.getElementById('emailjsStatus').classList.add('success');
+                    
+                    // Remove status after 3 seconds
+                    setTimeout(() => {
+                        document.getElementById('emailjsStatus').classList.add('fade-out');
+                        setTimeout(() => {
+                            document.getElementById('emailjsStatus').remove();
+                        }, 500);
+                    }, 3000);
+                })
+                .catch(error => {
+                    document.getElementById('emailjsStatus').innerHTML = 
+                        '<i class="fas fa-exclamation-triangle"></i> <span>EmailJS Failed: ' + error + '</span>';
+                    document.getElementById('emailjsStatus').classList.add('error');
+                });
+        })();
+
+        // Modal functions
+        function openRegistration() {
+            document.getElementById('registration-modal').style.display = 'flex';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.getElementById('registration-form').reset();
+        }
+        
+        // Form validation
+        function validatePhone(phone) {
+            const phoneRegex = /^[0-9\-\+]{9,15}$/;
+            return phoneRegex.test(phone);
+        }
+        
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('fade-out');
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+        
+        // Submit form with EmailJS
+        function validateAndSubmit() {
+            const form = document.getElementById('registration-form');
+            const submitBtn = document.querySelector('.btn-primary');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+            
+            // Basic validation
+            if (!form.checkValidity()) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            // Validate email
+            const email = document.getElementById('email').value;
+            if (!validateEmail(email)) {
+                showNotification('Please enter a valid email address', 'error');
+                document.getElementById('email').focus();
+                return;
+            }
+            
+            // Validate phone
+            const phone = document.getElementById('phone').value;
+            if (!validatePhone(phone)) {
+                showNotification('Please enter a valid phone number', 'error');
+                document.getElementById('phone').focus();
+                return;
+            }
+            
+            // Show loading state
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline-block';
+            
+            // Collect form data
+            const formData = {
+                first_name: document.getElementById('first-name').value,
+                middle_name: document.getElementById('middle-name').value || 'N/A',
+                last_name: document.getElementById('last-name').value,
+                email: email,
+                phone: phone,
+                course: document.getElementById('course').options[document.getElementById('course').selectedIndex].text,
+                level: document.getElementById('level').options[document.getElementById('level').selectedIndex].text,
+                registration_date: new Date().toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                })
+            };
+            
+            // Send email using EmailJS
+            emailjs.send('service_7b1ee5s', 'template_t34d75g', formData)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    
+                    // Hide loading state
+                    btnText.style.display = 'inline-block';
+                    btnLoading.style.display = 'none';
+                    
+                    // Show success message
+                    showNotification('Student registration submitted successfully!', 'success');
+                    
+                    // Update student count
+                    const studentCount = document.getElementById('total-students');
+                    studentCount.textContent = parseInt(studentCount.textContent) + 1;
+                    
+                    // Reset form after 2 seconds
+                    setTimeout(() => {
+                        form.reset();
+                        closeModal('registration-modal');
+                    }, 2000);
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    
+                    // Hide loading state
+                    btnText.style.display = 'inline-block';
+                    btnLoading.style.display = 'none';
+                    
+                    // Show error message
+                    showNotification('Failed to send registration: ' + error.text, 'error');
+                });
+        }
+        
+        // Initialize student count
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('total-students').textContent = '42';
+        });
+    </script>
     <script>
         // ===== KNOWLEDGE BASE ===== //
         const academyFAQs = [
@@ -1316,7 +1543,7 @@ https://github.com/BritsAcademy
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/firebaseui@6.0.2/dist/firebaseui.js"></script>
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/firebaseui@6.0.2/dist/firebaseui.css" />
-    <script> // Firebase configuration
+    <!-- <script> // Firebase configuration
      const firebaseConfig = {
   apiKey: "AIzaSyAVfy2oy892QqkgPZ0wsYIe7vdyuu2VgiE",
   authDomain: "brits-academy.firebaseapp.com",
@@ -1334,26 +1561,26 @@ console.log("Firestore instance:", firebase.firestore().app.name);
         const db = firebase.firestore();
         const auth = firebase.auth();
         
-        // Initialize FirebaseUI
-        const uiConfig = {
-            signInSuccessUrl: 'index.html',
-            signInOptions: [
-                firebase.auth.EmailAuthProvider.PROVIDER_ID,
-                firebase.auth.GoogleAuthProvider.PROVIDER_ID
-            ],
-            tosUrl: '#',
-            privacyPolicyUrl: '#',
-            callbacks: {
-                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-                    // User successfully signed in
-                    document.getElementById('firebaseui-auth-container').style.display = 'none';
-                    showAdminDashboard();
-                    return false;
-                }
-            }
-        };
+        // // Initialize FirebaseUI
+        // const uiConfig = {
+        //     signInSuccessUrl: 'index.html',
+        //     signInOptions: [
+        //         firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        //         firebase.auth.GoogleAuthProvider.PROVIDER_ID
+        //     ],
+        //     tosUrl: '#',
+        //     privacyPolicyUrl: '#',
+        //     callbacks: {
+        //         signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+        //             // User successfully signed in
+        //             document.getElementById('firebaseui-auth-container').style.display = 'none';
+        //             showAdminDashboard();
+        //             return false;
+        //         }
+        //     }
+        // };
         
-        const ui = new firebaseui.auth.AuthUI(auth);
+        // const ui = new firebaseui.auth.AuthUI(auth);
         
         // Admin login function
         function showAdmin() {
@@ -1461,7 +1688,14 @@ console.log("Firestore instance:", firebase.firestore().app.name);
                 return null;
             }
         }
-        </script>
+        </script> -->
     <script src="script.js"></script>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  (function() {
+    emailjs.init("uO6yLWKAtkCxMCgUM"); // Your User ID (Public Key)
+  })();
+</script>
+
 </body>
 </html>
