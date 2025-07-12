@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Student Registration</title>
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @keyframes fall {
@@ -352,7 +354,8 @@
                 <option value="Data Science">Data Science</option>
                 <option value="Cybersecurity">Cybersecurity</option>
                 <option value="GRAPHICS DESIGN">GRAPHICS DESIGN</option>
-                <option value="Social Media Management">Social Media Management</option>
+                <option value="Social Media Management">Youtube, Tiktok Monetization & Social Media Management</option>
+                <option value="Virtual Assistant, Digital Marketing & Chat moderation">Virtual Assistant, Digital Marketing & Chat moderation</option>
               </select>
               <div class="error-text" id="course-error">Please select a course</div>
             </div>
@@ -369,7 +372,7 @@
           </div>
           <div class="form-group">
             <input type="checkbox" id="terms" required>
-            <label for="terms" class="terms-label">I agree to Brits Academy's <a href="#">Terms and Conditions</a></label>
+            <label for="terms" class="terms-label">I agree to Brits Academy's <a href="/terms&conditions.html">Terms and Conditions</a></label>
             <div class="error-text" id="terms-error">You must accept the terms and conditions</div>
           </div>
         </form>
@@ -387,6 +390,19 @@
   </div>
 
   <script>
+      // Initialize Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyAVfy2oy892QqkgPZ0wsYIe7vdyuu2VgiE",
+    authDomain: "brits-academy.firebaseapp.com",
+    projectId: "brits-academy",
+    storageBucket: "brits-academy.firebasestorage.app",
+    messagingSenderId: "449738730487",
+    appId: "1:449738730487:web:b887df0a7470076a4cdcf2",
+    measurementId: "G-7S02WLG1M3"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
     // Create stars and shooting stars
     function createStars() {
       const body = document.body;
@@ -491,121 +507,248 @@
   });
 
     // Main validation and submission function
-    function validateAndProceed() {
-      const form = document.getElementById('registration-form');
-      const submitBtn = document.querySelector('.btn-primary');
-      const btnText = submitBtn.querySelector('.btn-text');
-      const spinner = submitBtn.querySelector('.btn-loading');
-      const inputs = form.querySelectorAll('input[required], select[required]');
-      let isValid = true;
+    // function validateAndProceed() {
+    //   const form = document.getElementById('registration-form');
+    //   const submitBtn = document.querySelector('.btn-primary');
+    //   const btnText = submitBtn.querySelector('.btn-text');
+    //   const spinner = submitBtn.querySelector('.btn-loading');
+    //   const inputs = form.querySelectorAll('input[required], select[required]');
+    //   let isValid = true;
       
-      // Reset error states
-      document.querySelectorAll('.error-text').forEach(el => el.style.display = 'none');
-      document.querySelectorAll('.error-border').forEach(el => el.classList.remove('error-border'));
-      document.querySelectorAll('.error-shake').forEach(el => el.classList.remove('error-shake'));
+    //   // Reset error states
+    //   document.querySelectorAll('.error-text').forEach(el => el.style.display = 'none');
+    //   document.querySelectorAll('.error-border').forEach(el => el.classList.remove('error-border'));
+    //   document.querySelectorAll('.error-shake').forEach(el => el.classList.remove('error-shake'));
       
-      // Validate each field
-      inputs.forEach(input => {
-        const errorId = `${input.id}-error`;
-        const errorElement = document.getElementById(errorId);
+    //   // Validate each field
+    //   inputs.forEach(input => {
+    //     const errorId = `${input.id}-error`;
+    //     const errorElement = document.getElementById(errorId);
         
-        if (!input.value) {
-          input.classList.add('error-border');
-          input.parentElement.classList.add('error-shake');
-          if (errorElement) errorElement.style.display = 'block';
-          isValid = false;
-        } else {
-          // Special validation for email
-          if (input.id === 'email' && !validateEmail(input.value)) {
-            input.classList.add('error-border');
-            input.parentElement.classList.add('error-shake');
-            if (errorElement) {
-              errorElement.textContent = 'Please enter a valid email address';
-              errorElement.style.display = 'block';
-            }
-            isValid = false;
-          }
+    //     if (!input.value) {
+    //       input.classList.add('error-border');
+    //       input.parentElement.classList.add('error-shake');
+    //       if (errorElement) errorElement.style.display = 'block';
+    //       isValid = false;
+    //     } else {
+    //       // Special validation for email
+    //       if (input.id === 'email' && !validateEmail(input.value)) {
+    //         input.classList.add('error-border');
+    //         input.parentElement.classList.add('error-shake');
+    //         if (errorElement) {
+    //           errorElement.textContent = 'Please enter a valid email address';
+    //           errorElement.style.display = 'block';
+    //         }
+    //         isValid = false;
+    //       }
           
-          // Special validation for phone
-          if (input.id === 'phone' && !validatePhone(input.value)) {
-            input.classList.add('error-border');
-            input.parentElement.classList.add('error-shake');
-            if (errorElement) {
-              errorElement.textContent = 'Please enter a valid phone number (10-15 digits)';
-              errorElement.style.display = 'block';
-            }
-            isValid = false;
-          }
-        }
-      });
+    //       // Special validation for phone
+    //       if (input.id === 'phone' && !validatePhone(input.value)) {
+    //         input.classList.add('error-border');
+    //         input.parentElement.classList.add('error-shake');
+    //         if (errorElement) {
+    //           errorElement.textContent = 'Please enter a valid phone number (10-15 digits)';
+    //           errorElement.style.display = 'block';
+    //         }
+    //         isValid = false;
+    //       }
+    //     }
+    //   });
       
-      // Validate terms checkbox
-      const terms = document.getElementById('terms');
-      const termsError = document.getElementById('terms-error');
-      if (!terms.checked) {
-        terms.parentElement.classList.add('error-shake');
-        termsError.style.display = 'block';
-        isValid = false;
-      }
+    //   // Validate terms checkbox
+    //   const terms = document.getElementById('terms');
+    //   const termsError = document.getElementById('terms-error');
+    //   if (!terms.checked) {
+    //     terms.parentElement.classList.add('error-shake');
+    //     termsError.style.display = 'block';
+    //     isValid = false;
+    //   }
       
-      if (!isValid) return;
+    //   if (!isValid) return;
       
-      // Show loading state
-      btnText.style.display = "none";
-      spinner.style.display = "inline-block";
+    //   // Show loading state
+    //   btnText.style.display = "none";
+    //   spinner.style.display = "inline-block";
       
-      // Gather form data
-      const firstName = document.getElementById('first-name').value.trim();
-      const middleName = document.getElementById('middle-name').value.trim();
-      const lastName = document.getElementById('last-name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const course = document.getElementById('course').value;
-      const level = document.getElementById('level').value;
-      const termsAccepted = terms.checked ? "Accepted" : "Not Accepted";
+    //   // Gather form data
+    //   const firstName = document.getElementById('first-name').value.trim();
+    //   const middleName = document.getElementById('middle-name').value.trim();
+    //   const lastName = document.getElementById('last-name').value.trim();
+    //   const email = document.getElementById('email').value.trim();
+    //   const phone = document.getElementById('phone').value.trim();
+    //   const course = document.getElementById('course').value;
+    //   const level = document.getElementById('level').value;
+    //   const termsAccepted = terms.checked ? "Accepted" : "Not Accepted";
       
-      // Calculate amount based on level
-      const amountMap = { beginner: 10000, intermediate: 15000, advanced: 20000 };
-      const amount = amountMap[level] || 10000;
+    //   // Calculate amount based on level
+    //   const amountMap = { beginner: 10000, intermediate: 15000, advanced: 20000 };
+    //   const amount = amountMap[level] || 10000;
       
-      // Create full name
-      const fullName = middleName 
-        ? `${firstName} ${middleName} ${lastName}`
-        : `${firstName} ${lastName}`;
+    //   // Create full name
+    //   const fullName = middleName 
+    //     ? `${firstName} ${middleName} ${lastName}`
+    //     : `${firstName} ${lastName}`;
       
-      // Prepare email template parameters
-      const templateParams = {
-        first_name: firstName,
-        middle_name: middleName || "N/A",
-        last_name: lastName,
-        email: email,
-        phone: phone,
-        course: course,
-        level: level,
-        terms: termsAccepted,
-        amount: amount
-      };
+    //   // Prepare email template parameters
+    //   const templateParams = {
+    //     first_name: firstName,
+    //     middle_name: middleName || "N/A",
+    //     last_name: lastName,
+    //     email: email,
+    //     phone: phone,
+    //     course: course,
+    //     level: level,
+    //     terms: termsAccepted,
+    //     amount: amount
+    //   };
       
-      console.log("Sending to EmailJS:", templateParams); // Debug output
+    //   console.log("Sending to EmailJS:", templateParams); // Debug output
       
-      // Send email via EmailJS
-      emailjs.send("service_7b1ee5s", "template_t34d75g", templateParams)
-        .then(() => {
-          alert("Registration successful! You'll receive a confirmation email shortly.");
-          form.reset();
-        })
-        .catch((error) => {
-          alert("Failed to send registration email. Please try again. Error: " + error.text);
-        })
-        .finally(() => {
-          // Redirect to payment page regardless of email success
-          setTimeout(() => {
-            window.location.href = `payment-instructions.html?firstName=${encodeURIComponent(firstName)}&fullName=${encodeURIComponent(fullName)}&course=${encodeURIComponent(course)}&level=${encodeURIComponent(level)}&amount=${amount}`;
-          }, 1500);
-        });
-    }
+    //   // Send email via EmailJS
+    //   emailjs.send("service_7b1ee5s", "template_t34d75g", templateParams)
+    //     .then(() => {
+    //       alert("Registration successful! You'll receive a confirmation email shortly.");
+    //       form.reset();
+    //     })
+    //     .catch((error) => {
+    //       alert("Failed to send registration email. Please try again. Error: " + error.text);
+    //     })
+    //     .finally(() => {
+    //       // Redirect to payment page regardless of email success
+    //       setTimeout(() => {
+    //         window.location.href = `payment-instructions.html?firstName=${encodeURIComponent(firstName)}&fullName=${encodeURIComponent(fullName)}&course=${encodeURIComponent(course)}&level=${encodeURIComponent(level)}&amount=${amount}`;
+    //       }, 1500);
+    //     });
+    // }
     
     // Initialize the page
+   function validateAndProceed() {
+    const form = document.getElementById('registration-form');
+    const submitBtn = document.querySelector('.btn-primary');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const spinner = submitBtn.querySelector('.btn-loading');
+    const inputs = form.querySelectorAll('input[required], select[required]');
+    let isValid = true;
+
+    document.querySelectorAll('.error-text').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.error-border').forEach(el => el.classList.remove('error-border'));
+    document.querySelectorAll('.error-shake').forEach(el => el.classList.remove('error-shake'));
+
+    inputs.forEach(input => {
+      const errorId = `${input.id}-error`;
+      const errorElement = document.getElementById(errorId);
+      if (!input.value) {
+        input.classList.add('error-border');
+        input.parentElement.classList.add('error-shake');
+        if (errorElement) errorElement.style.display = 'block';
+        isValid = false;
+      } else {
+        if (input.id === 'email' && !validateEmail(input.value)) {
+          input.classList.add('error-border');
+          input.parentElement.classList.add('error-shake');
+          if (errorElement) {
+            errorElement.textContent = 'Please enter a valid email address';
+            errorElement.style.display = 'block';
+          }
+          isValid = false;
+        }
+        if (input.id === 'phone' && !validatePhone(input.value)) {
+          input.classList.add('error-border');
+          input.parentElement.classList.add('error-shake');
+          if (errorElement) {
+            errorElement.textContent = 'Please enter a valid phone number (10-15 digits)';
+            errorElement.style.display = 'block';
+          }
+          isValid = false;
+        }
+      }
+    });
+
+    const terms = document.getElementById('terms');
+    const termsError = document.getElementById('terms-error');
+    if (!terms.checked) {
+      terms.parentElement.classList.add('error-shake');
+      termsError.style.display = 'block';
+      isValid = false;
+    }
+
+    if (!isValid) return;
+
+    btnText.style.display = "none";
+    spinner.style.display = "inline-block";
+
+    const firstName = document.getElementById('first-name').value.trim();
+    const middleName = document.getElementById('middle-name').value.trim();
+    const lastName = document.getElementById('last-name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const course = document.getElementById('course').value;
+    const level = document.getElementById('level').value;
+    const termsAccepted = terms.checked ? "Accepted" : "Not Accepted";
+
+    const amountMap = { beginner: 10000, intermediate: 15000, advanced: 20000 };
+    const amount = amountMap[level] || 10000;
+
+    const fullName = middleName 
+      ? `${firstName} ${middleName} ${lastName}`
+      : `${firstName} ${lastName}`;
+
+    const data = {
+      first_name: firstName,
+      middle_name: middleName || "N/A",
+      last_name: lastName,
+      full_name: fullName,
+      email,
+      phone,
+      course,
+      level,
+      terms: termsAccepted,
+      amount,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    emailjs.send("service_7b1ee5s", "template_t34d75g", data)
+      .then(() => {
+        console.log("Email sent successfully");
+      })
+      .catch((error) => {
+        console.error("EmailJS error:", error);
+      });
+
+    db.collection("registrations").add(data)
+      .then(() => {
+        console.log("Data saved to Firestore");
+        alert("Registration successful! You'll receive a confirmation email shortly.");
+        form.reset();
+        setTimeout(() => {
+          window.location.href = `payment-instructions.html?firstName=${encodeURIComponent(firstName)}&fullName=${encodeURIComponent(fullName)}&course=${encodeURIComponent(course)}&level=${encodeURIComponent(level)}&amount=${amount}`;
+        }, 1500);
+      })
+      .catch((err) => {
+        alert("Failed to save data. Please try again.");
+        console.error("Firestore error:", err);
+      })
+      .finally(() => {
+        btnText.style.display = "inline-block";
+        spinner.style.display = "none";
+      });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('input, select').forEach(input => {
+      input.addEventListener('input', function () {
+        this.classList.remove('error-border');
+        const errorId = `${this.id}-error`;
+        const errorElement = document.getElementById(errorId);
+        if (errorElement) errorElement.style.display = 'none';
+      });
+    });
+    document.getElementById('terms').addEventListener('change', function () {
+      if (this.checked) {
+        document.getElementById('terms-error').style.display = 'none';
+      }
+    });
+  });
     document.addEventListener('DOMContentLoaded', function() {
       createStars();
       

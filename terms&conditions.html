@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms and Conditions | Brits Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-light: #f9f9f9;
+      --text-light: #333;
+      --card-bg-light: rgba(255, 255, 255, 0.85);
+      --bg-dark: #0d0d1a;
+      --text-dark: #f0f0f0;
+      --card-bg-dark: rgba(26, 26, 46, 0.9);
+      --secondary: #1e40af;
+      --accent: #f59e0b;
+      --dark: #1e293b;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.5s, color 0.5s;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      min-height: 100vh;
+    }
+
+    .button-group {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      gap: 10px;
+    }
+
+    .theme-toggle, .stars-toggle {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: none;
+      border-radius: 50px;
+      padding: 10px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    body.dark-mode .theme-toggle,
+    body.dark-mode .stars-toggle {
+      background: rgba(26, 26, 46, 0.5);
+      color: var(--text-dark);
+    }
+
+    .theme-toggle:hover, .stars-toggle:hover {
+      transform: scale(1.05);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 100px auto;
+      padding: 40px;
+      background-color: var(--card-bg-light);
+      color: var(--text-light);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1.2s ease-in;
+      position: relative;
+      z-index: 10;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.5s ease;
+    }
+
+    body.starry-mode .container {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.95);
+    }
+
+    body.dark-mode {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    body.dark-mode .container {
+      background-color: var(--card-bg-dark);
+      color: var(--text-dark);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.8em;
+      margin-bottom: 30px;
+      background: linear-gradient(45deg, var(--secondary), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      letter-spacing: -0.5px;
+      padding: 10px 0;
+    }
+
+    h2 {
+      color: var(--accent);
+      margin-top: 30px;
+      font-size: 1.5em;
+      border-bottom: 2px solid rgba(245, 158, 11, 0.3);
+      padding-bottom: 5px;
+    }
+
+    section {
+      margin-bottom: 25px;
+    }
+
+    ul {
+      padding-left: 20px;
+      line-height: 1.6;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    a {
+      color: var(--secondary);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    body.dark-mode a {
+      color: var(--accent);
+    }
+
+    a:hover {
+      text-decoration: underline;
+      opacity: 0.8;
+    }
+
+    @keyframes fadeIn {
+      0% {opacity: 0; transform: translateY(30px);}
+      100% {opacity: 1; transform: translateY(0);}
+    }
+
+    /* Night Sky Background */
+    .night-sky {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      overflow: hidden;
+      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+      opacity: 0;
+      transition: opacity 1s;
+    }
+
+    body.dark-mode .night-sky {
+      opacity: 1;
+    }
+
+    body.starry-mode .night-sky {
+      opacity: 1;
+      z-index: 100;
+    }
+
+    .stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 160px 120px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 200px 20px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 250px 50px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 300px 100px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 350px 30px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 400px 80px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 450px 10px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 500px 60px, #fff, rgba(0,0,0,0));
+      background-repeat: repeat;
+      animation: moveStars 200s linear infinite;
+    }
+
+    .stars::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(1px 1px at 50px 160px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 170px 120px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 210px 60px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 240px 90px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 280px 20px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 320px 70px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 360px 40px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 400px 110px, #fff, rgba(0,0,0,0));
+      animation: moveStars 150s linear infinite;
+    }
+
+    @keyframes moveStars {
+      from { transform: translateY(0); }
+      to { transform: translateY(-100%); }
+    }
+
+    .moon {
+      position: absolute;
+      top: 60px;
+      right: 60px;
+      width: 100px;
+      height: 100px;
+      background: #f8f8f8;
+      border-radius: 50%;
+      box-shadow: 
+        0 0 60px rgba(255, 228, 178, 0.4),
+        0 0 100px rgba(255, 228, 178, 0.2);
+      z-index: 2;
+      animation: moonGlow 8s ease-in-out infinite alternate;
+    }
+
+    .moon::before {
+      content: "";
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 20px;
+      height: 20px;
+      background: rgba(200, 200, 200, 0.3);
+      border-radius: 50%;
+      box-shadow: 
+        30px -10px 0 -5px rgba(200, 200, 200, 0.3),
+        50px 20px 0 -2px rgba(200, 200, 200, 0.3),
+        20px 50px 0 -7px rgba(200, 200, 200, 0.3),
+        40px 40px 0 -3px rgba(200, 200, 200, 0.3);
+    }
+
+    @keyframes moonGlow {
+      0% { box-shadow: 0 0 60px rgba(255, 228, 178, 0.4); }
+      100% { box-shadow: 0 0 80px rgba(255, 228, 178, 0.6); }
+    }
+
+    /* Shooting Stars */
+    .shooting-star {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 4px;
+      height: 4px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1),
+                  0 0 0 8px rgba(255, 255, 255, 0.1),
+                  0 0 20px rgba(255, 255, 255, 1);
+      animation: shooting 3s linear infinite;
+    }
+
+    .shooting-star::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 300px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 1), transparent);
+    }
+
+    @keyframes shooting {
+      0% {
+        transform: rotate(215deg) translateX(0);
+        opacity: 1;
+      }
+      70% {
+        opacity: 1;
+      }
+      100% {
+        transform: rotate(215deg) translateX(-1000px);
+        opacity: 0;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px;
+        padding: 25px;
+      }
+      
+      h1 {
+        font-size: 2em;
+      }
+      
+      .moon {
+        width: 60px;
+        height: 60px;
+        top: 30px;
+        right: 30px;
+      }
+      
+      .button-group {
+        flex-direction: column;
+        align-items: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="night-sky">
+    <div class="stars"></div>
+    <div class="moon"></div>
+  </div>
+
+  <div class="button-group">
+    <button class="theme-toggle" onclick="toggleTheme()">🌙 Theme</button>
+    <button class="stars-toggle" onclick="toggleStarryMode()">✨ Starry Mode</button>
+  </div>
+
+  <div class="container">
+    <h1>Terms and Conditions</h1>
+    <p><strong>Effective Date:</strong> <span id="currentDate"></span></p>
+
+    <section>
+      <h2>1. Acceptance of Terms</h2>
+      <p>By accessing or using Brits Academy's services, website, or mobile application, you agree to be legally bound by these Terms and Conditions . These Terms govern your use of our educational platform, including all content, functionality, and services offered. If you do not agree with any part of these Terms, you must immediately discontinue use of our Services.</p>
+    </section>
+
+    <section>
+      <h2>2. Eligibility Requirements</h2>
+      <p>To register and maintain an account with Brits Academy, you must meet the following criteria:</p>
+      <ul>
+        <li><strong>Age:</strong> Be at least 13 years of age. Users under 18 require parental or guardian consent to use our Services.</li>
+        <li><strong>Accuracy:</strong> Provide complete, current, and accurate information during registration and maintain its accuracy.</li>
+        <li><strong>Compliance:</strong> Adhere to all academic policies, community guidelines, and behavioral standards established by Brits Academy.</li>
+        <li><strong>Authorization:</strong> If registering on behalf of an organization, have authority to bind that organization to these Terms.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. Account Security & Responsibilities</h2>
+      <p>As a registered user, you are solely responsible for:</p>
+      <ul>
+        <li><strong>Confidentiality:</strong> Maintaining the secrecy of your login credentials and not sharing accounts.</li>
+        <li><strong>Activity:</strong> All activities conducted under your account, whether authorized by you or not.</li>
+        <li><strong>Security:</strong> Promptly notifying us of any unauthorized access or security breaches at academybrits@gmail.com.</li>
+        <li><strong>Access:</strong> Ensuring your device meets our minimum system requirements for optimal service functionality.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4. Content Policy & Intellectual Property</h2>
+      <p>When using our Services, you agree:</p>
+      <ul>
+        <li><strong>Ownership:</strong> Brits Academy retains all rights to platform content, including courses, materials, and branding.</li>
+        <li><strong>User Content:</strong> You maintain ownership of content you create but grant us a license to display and distribute it through our Services.</li>
+        <li><strong>Restrictions:</strong> Not to upload/share content that:
+          <ul>
+            <li>Infringes on copyrights, trademarks, or patents</li>
+            <li>Contains viruses, malware, or harmful code</li>
+            <li>Is defamatory, obscene, or promotes illegal activities</li>
+            <li>Violates privacy rights or contains sensitive personal information</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>5. Payments, Refunds & Subscription Terms</h2>
+      <ul>
+        <li><strong>Fees:</strong> All course fees and subscriptions are clearly displayed before purchase. Prices may change with 30 days notice.</li>
+        <li><strong>Payment:</strong> We accept major credit cards and mobile payment options. Recurring payments will auto-renew unless canceled.</li>
+        <li><strong>Refunds:</strong> Requests must be submitted within 14 days of purchase for unused courses. Refunds processed within 7-10 business days.</li>
+        <li><strong>Chargebacks:</strong> Unauthorized payment disputes may result in immediate account suspension and collection efforts.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>6. Termination & Account Suspension</h2>
+      <p>Brits Academy reserves the right to suspend or terminate accounts for:</p>
+      <ul>
+        <li>Violations of these Terms or academic integrity policies</li>
+        <li>Fraudulent activity, including payment fraud or false credentials</li>
+        <li>Inactivity exceeding 12 consecutive months</li>
+        <li>Behavior that disrupts the learning environment or harasses others</li>
+      </ul>
+      <p>Upon termination, you lose access to all course materials and services. Certain provisions survive termination.</p>
+    </section>
+
+    <section>
+      <h2>7. Limitation of Liability</h2>
+      <p>To the maximum extent permitted by law, Brits Academy shall not be liable for:</p>
+      <ul>
+        <li>Service interruptions beyond our reasonable control</li>
+        <li>Accuracy of third-party content or external links</li>
+        <li>Indirect, incidental, or consequential damages</li>
+        <li>Loss of data, profits, or business opportunities</li>
+        <li>User-generated content or conduct of other users</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>8. Dispute Resolution</h2>
+      <p>Before initiating formal proceedings, you agree to:</p>
+      <ul>
+        <li>Notify us in writing of any disputes at academybrits@gmail.com</li>
+        <li>Participate in good-faith negotiations for at least 30 days</li>
+        <li>If unresolved, disputes shall be settled through binding arbitration in Kenya under Governing Laws and arbitrator participation</li>
+        <li>Class actions and jury trials are expressly waived</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>9. Modifications to Terms</h2>
+      <p>We may update these Terms periodically to reflect:</p>
+      <ul>
+        <li>Changes in our services or business practices</li>
+        <li>Legal or regulatory requirements</li>
+        <li>Security or technical considerations</li>
+      </ul>
+      <p>Material changes will be communicated via email or platform notice 30 days in advance. Continued use constitutes acceptance.</p>
+    </section>
+
+    <section>
+      <h2>10. Contact Information</h2>
+      <p>For questions or concerns regarding these Terms, please contact:</p>
+      <ul>
+        <li><strong>Legal Department:</strong> academybrits@gmail.com</li>
+        <li><strong>Phone Support:</strong> +254741261579/+254746550166 (Mon-Fri, 9AM-5PM EAT)</li>
+        <li><strong>Mailing Address:</strong> Kutus Kerugoya</li>
+      </ul>
+      <p>For immediate technical support, visit our Help Center at academybrits@gmail.com.com</p>
+    </section>
+  </div>
+
+  <script>
+    // Auto-set current date
+    document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+
+    // Theme toggle with localStorage
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    }
+
+    // Starry mode toggle
+    function toggleStarryMode() {
+      document.body.classList.toggle('starry-mode');
+    }
+
+    // Check saved preferences
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+
+    // Generate dynamic stars and shooting stars
+    function createStars() {
+      const sky = document.querySelector('.night-sky');
+      
+      // Add more static stars
+      for (let i = 0; i < 150; i++) {
+        const star = document.createElement('div');
+        star.style.position = 'absolute';
+        star.style.width = Math.random() * 3 + 'px';
+        star.style.height = star.style.width;
+        star.style.backgroundColor = 'white';
+        star.style.borderRadius = '50%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.opacity = Math.random();
+        star.style.animation = `twinkle ${Math.random() * 5 + 3}s infinite alternate`;
+        sky.appendChild(star);
+      }
+      
+      // Add shooting stars
+      for (let i = 0; i < 5; i++) {
+        createShootingStar();
+      }
+    }
+
+   // Generate random shooting stars
+    function createShootingStars() {
+      const sky = document.querySelector('.night-sky');
+      for (let i = 0; i < 5; i++) {
+        const star = document.createElement('div');
+        star.className = 'shooting-star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 5 + 's';
+        sky.appendChild(star);
+      }
+    }
+
+    window.onload = createShootingStars();
+    // Keyframe for twinkling
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes twinkle {
+        0% { opacity: 0.2; }
+        100% { opacity: 1; }
+      }
+    `;
+    
+
+    window.onload = function() {
+      createStars();
+      setInterval(() => {
+        document.querySelectorAll('.shooting-star').forEach(s => s.remove());
+        for (let i = 0; i < 3; i++) {
+          createShootingStar();
+        }
+      }, 8000);
+    };
+  </script>
+</body>
+</html>

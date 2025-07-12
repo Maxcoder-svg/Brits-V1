@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brits Academy - Admin Section</title>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --secondary: #a29bfe;
+      --dark: #2d3436;
+      --darker: #1e272e;
+      --light: #f5f6fa;
+      --success: #00b894;
+      --warning: #fdcb6e;
+      --danger: #d63031;
+      --info: #0984e3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--darker), var(--dark));
+      color: var(--light);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Starry Night Background */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      animation: twinkle var(--duration) infinite ease-in-out;
+      opacity: 0;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; }
+      50% { opacity: var(--opacity); }
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Header Section */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      animation: fadeInDown 1s;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+    }
+
+    .logo-text h1 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .logo-text p {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* CEO Profile */
+    .ceo-profile {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(108, 92, 231, 0.1);
+      padding: 0.8rem 1.2rem;
+      border-radius: 50px;
+      border: 1px solid rgba(108, 92, 231, 0.3);
+      animation: fadeInRight 1s;
+    }
+
+    .ceo-profile img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--success);
+    }
+
+    .ceo-info h4 {
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .ceo-info p {
+      font-size: 0.8rem;
+      opacity: 0.7;
+    }
+
+    /* Login Section */
+    .login-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 70vh;
+      animation: fadeIn 1s;
+    }
+
+    .login-card {
+      background: rgba(30, 39, 46, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transform-style: preserve-3d;
+      transition: all 0.5s ease;
+    }
+
+    .login-card:hover {
+      transform: translateY(-5px) rotateX(5deg);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .login-card h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--primary);
+      font-size: 1.8rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(108, 92, 231, 0.1);
+      box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-block {
+      display: block;
+      width: 100%;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #5649c0;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+    }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #8c7ae6;
+      transform: translateY(-2px);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #c0392b;
+      transform: translateY(-2px);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #00a884;
+      transform: translateY(-2px);
+    }
+
+    /* Admin Dashboard */
+    .admin-dashboard {
+      display: none;
+      animation: fadeIn 1s;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .dashboard-title h2 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .dashboard-title p {
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+
+    .dashboard-actions {
+      display: flex;
+      gap: 1rem;
+    }
+
+    /* Stats Cards */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: rgba(30, 39, 46, 0.6);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      border-color: var(--primary);
+    }
+
+    .stat-card h3 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .stat-card .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .stat-card .stat-change {
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .stat-card .stat-change.positive {
+      color: var(--success);
+    }
+
+    .stat-card .stat-change.negative {
+      color: var(--danger);
+    }
+
+    /* Table Styles */
+    .table-container {
+      background: rgba(30, 39, 46, 0.6);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    /* Mobile scrollable table */
+    .table-responsive {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+    }
+
+    th {
+      background: rgba(108, 92, 231, 0.2);
+      color: var(--primary);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    th:hover {
+      background: rgba(108, 92, 231, 0.3);
+    }
+
+    th.sortable::after {
+      content: "↕";
+      margin-left: 0.5rem;
+      opacity: 0.5;
+      font-size: 0.8rem;
+    }
+
+    th.sort-asc::after {
+      content: "↑";
+      opacity: 1;
+    }
+
+    th.sort-desc::after {
+      content: "↓";
+      opacity: 1;
+    }
+
+    tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    tr:last-child {
+      border-bottom: none;
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .status-badge.status-active {
+      background: rgba(0, 184, 148, 0.2);
+      color: var(--success);
+      border: 1px solid var(--success);
+    }
+
+    .status-badge.status-inactive {
+      background: rgba(253, 203, 110, 0.2);
+      color: var(--warning);
+      border: 1px solid var(--warning);
+    }
+
+    .student-email {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    /* Course Cards */
+    .courses-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .course-card {
+      background: rgba(30, 39, 46, 0.6);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      border-color: var(--primary);
+    }
+
+    .course-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .course-card .tutor-info {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+    }
+
+    .course-card .students-count {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .course-card .students-count i {
+      color: var(--success);
+    }
+
+    .course-card .actions {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .course-card .actions button {
+      background: none;
+      border: none;
+      color: var(--light);
+      cursor: pointer;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .course-card .actions button:hover {
+      opacity: 1;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .course-card .actions .edit-btn:hover {
+      color: var(--primary);
+    }
+
+    .course-card .actions .delete-btn:hover {
+      color: var(--danger);
+    }
+
+    .course-card .actions .whatsapp-btn:hover {
+      color: var(--success);
+    }
+
+    /* Add Course Form */
+    .add-course-form {
+      background: rgba(30, 39, 46, 0.6);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .add-course-form h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    /* Edit Course Modal */
+    .edit-course-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .edit-course-content {
+      background: var(--darker);
+      padding: 2rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s;
+    }
+
+    .modal-content {
+      background: linear-gradient(145deg, var(--darker), #222f3a);
+      border-radius: 15px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      transform: translateY(-20px);
+      opacity: 0;
+      animation: modalOpen 0.4s forwards;
+    }
+
+    @keyframes modalOpen {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close:hover {
+      opacity: 1;
+      transform: rotate(90deg);
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .modal-footer {
+      padding: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+
+    /* Search and Filter */
+    .search-filter {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(108, 92, 231, 0.1);
+      box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+    }
+
+    .filter-select {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      color: white;
+      min-width: 200px;
+      transition: all 0.3s ease;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(108, 92, 231, 0.1);
+      box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    .tab {
+      padding: 0.8rem 1.5rem;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .tab.active {
+      border-bottom-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .tab:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.5s;
+    }
+
+    /* Chart Styles */
+    .chart-container {
+      background: rgba(30, 39, 46, 0.6);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .dashboard-actions {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+
+      th, td {
+        padding: 0.8rem 0.5rem;
+      }
+
+      .modal-content {
+        width: 95%;
+      }
+
+      .form-row {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* Pulse animation for notifications */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(108, 92, 231, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    .level-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.level-badge.beginner {
+  background: rgba(0, 184, 148, 0.2);
+  color: var(--success);
+  border: 1px solid var(--success);
+}
+
+.level-badge.intermediate {
+  background: rgba(253, 203, 110, 0.2);
+  color: var(--warning);
+  border: 1px solid var(--warning);
+}
+
+.level-badge.advanced,
+.level-badge.expert {
+  background: rgba(214, 48, 49, 0.2);
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+.level-badge.not-specified {
+  background: rgba(108, 92, 231, 0.2);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+  </style>
+</head>
+<body>
+  <!-- Starry Background -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Login Section -->
+  <div class="login-section" id="loginSection">
+    <div class="login-card">
+      <h2><i class="fas fa-lock"></i> Admin Login</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div class="container admin-dashboard" id="adminDashboard">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <img src="/ChatGPT Image Jun 6, 2025, 07_12_25 PM.png" alt="Brits Academy Logo" id="logoImage">
+        <div class="logo-text">
+          <h1>Brits Academy</h1>
+          <p>Admin Dashboard</p>
+        </div>
+      </div>
+      <div class="ceo-profile">
+        <img src="/teach2give.jpg" alt="CEO Ian Njoroge" id="ceoImage">
+        <div class="ceo-info">
+          <h4>Ian Njoroge</h4>
+          <p>CEO & Founder</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+      <!-- Tabs -->
+      <div class="tabs">
+        <div class="tab active" data-tab="students">Students</div>
+        <div class="tab" data-tab="courses">Courses</div>
+        <div class="tab" data-tab="analytics">Analytics</div>
+      </div>
+
+      <!-- Students Tab -->
+      <div class="tab-content active" id="studentsTab">
+        <div class="dashboard-header">
+          <div class="dashboard-title">
+            <h2><i class="fas fa-users"></i> Student Management</h2>
+            <p>Manage all student records and payments</p>
+          </div>
+          <div class="dashboard-actions">
+            <button class="btn btn-secondary" id="importStudentsBtn">
+              <i class="fas fa-file-import"></i> Import Students
+            </button>
+            <button class="btn btn-danger" id="logoutBtn">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-container">
+          <div class="stat-card">
+            <h3><i class="fas fa-users"></i> Total Students</h3>
+            <div class="stat-value" id="totalStudents">0</div>
+            <div class="stat-change positive">
+              <i class="fas fa-arrow-up"></i> 12% from last month
+            </div>
+          </div>
+          <div class="stat-card">
+            <h3><i class="fas fa-check-circle"></i> Paid Students</h3>
+            <div class="stat-value" id="paidStudents">0</div>
+            <div class="stat-change positive">
+              <i class="fas fa-arrow-up"></i> 8% from last month
+            </div>
+          </div>
+          <div class="stat-card">
+            <h3><i class="fas fa-clock"></i> Pending</h3>
+            <div class="stat-value" id="pendingStudents">0</div>
+            <div class="stat-change negative">
+              <i class="fas fa-arrow-down"></i> 5% from last month
+            </div>
+          </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="search-filter">
+          <input type="text" id="searchInput" class="search-box" placeholder="Search students...">
+          <select class="filter-select" id="statusFilter">
+            <option value="all">All Status</option>
+            <option value="Paid">Paid</option>
+            <option value="Pending">Pending</option>
+          </select>
+        </div>
+
+        <!-- Students Table -->
+        <div class="table-container">
+          <div class="table-responsive">
+            <table id="studentsTable">
+              <thead>
+                <tr>
+                  <th class="sortable" data-key="name">Student</th>
+                  <th class="sortable" data-key="course">Course</th>
+                  <th class="sortable" data-key="level">Level</th>
+                  <th class="sortable" data-key="phone">Contact</th>
+                  <th class="sortable" data-key="status">Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="studentsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Courses Tab -->
+      <div class="tab-content" id="coursesTab">
+        <div class="dashboard-header">
+          <div class="dashboard-title">
+            <h2><i class="fas fa-book"></i> Course Management</h2>
+            <p>Manage all courses and tutors</p>
+          </div>
+          <div class="dashboard-actions">
+            <button class="btn btn-primary" id="addCourseBtn">
+              <i class="fas fa-plus"></i> Add Course
+            </button>
+            <button class="btn btn-danger" id="logoutBtn2">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+        </div>
+
+        <!-- Add Course Form -->
+        <div class="add-course-form" id="addCourseForm" style="display: none;">
+          <h3><i class="fas fa-plus-circle"></i> Add New Course</h3>
+          <form id="courseForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="courseName">Course Name</label>
+                <input type="text" id="courseName" class="form-control" placeholder="Enter course name" required>
+              </div>
+              <div class="form-group">
+                <label for="tutorName">Tutor Name</label>
+                <input type="text" id="tutorName" class="form-control" placeholder="Enter tutor name" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="tutorPhone">Tutor Phone</label>
+              <input type="text" id="tutorPhone" class="form-control" placeholder="Enter tutor phone number" required>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Save Course
+              </button>
+              <button type="button" class="btn btn-secondary" id="cancelAddCourse">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Course Cards -->
+        <div class="courses-container" id="coursesContainer">
+          <!-- Course cards will be dynamically inserted here -->
+        </div>
+      </div>
+
+      <!-- Analytics Tab -->
+      <div class="tab-content" id="analyticsTab">
+        <div class="dashboard-header">
+          <div class="dashboard-title">
+            <h2><i class="fas fa-chart-bar"></i> Course Analytics</h2>
+            <p>Compare student enrollment and payment status across courses</p>
+          </div>
+        </div>
+        
+        <div class="chart-container">
+          <canvas id="enrollmentChart" width="400" height="200"></canvas>
+        </div>
+        
+        <div class="chart-container" style="margin-top: 2rem;">
+          <canvas id="paymentChart" width="400" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Modal -->
+  <div id="importStudentsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-file-import"></i> Import Students</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="importSearch" placeholder="Search students..." class="search-box" />
+        <div class="table-container" style="margin-top: 1rem;">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th><input type="checkbox" id="selectAllFirebase"></th>
+                  <th>Name</th>
+                  <th>Course</th>
+                  <th>Level</th>
+                  <th>Contact</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="firebaseStudentsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="cancelImport">Cancel</button>
+        <button class="btn btn-primary" id="confirmImport">
+          <i class="fas fa-file-import"></i> Import Selected Students
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Course Modal -->
+  <div class="edit-course-modal" id="editCourseModal">
+    <div class="edit-course-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-edit"></i> Edit Course</h3>
+        <button class="modal-close" id="closeEditModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="editCourseForm">
+          <input type="hidden" id="editCourseId">
+          <div class="form-group">
+            <label for="editCourseName">Course Name</label>
+            <input type="text" id="editCourseName" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="editTutorName">Tutor Name</label>
+            <input type="text" id="editTutorName" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="editTutorPhone">Tutor Phone</label>
+            <input type="text" id="editTutorPhone" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Save Changes
+            </button>
+            <button type="button" class="btn btn-secondary" id="cancelEditCourse">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Create starry background
+  function createStars() {
+    const starsContainer = document.getElementById('stars');
+    const starsCount = 200;
+    
+    for (let i = 0; i < starsCount; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      
+      // Random properties for each star
+      const size = Math.random() * 3;
+      const posX = Math.random() * 100;
+      const posY = Math.random() * 100;
+      const opacity = Math.random() * 0.8 + 0.2;
+      const duration = Math.random() * 5 + 3;
+      const delay = Math.random() * 5;
+      
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.left = `${posX}%`;
+      star.style.top = `${posY}%`;
+      star.style.opacity = opacity;
+      star.style.setProperty('--opacity', opacity);
+      star.style.setProperty('--duration', `${duration}s`);
+      star.style.animationDelay = `${delay}s`;
+      
+      starsContainer.appendChild(star);
+    }
+  }
+
+  // Initialize Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyAVfy2oy892QqkgPZ0wsYIe7vdyuu2VgiE",
+    authDomain: "brits-academy.firebaseapp.com",
+    projectId: "brits-academy",
+    storageBucket: "brits-academy.appspot.com",
+    messagingSenderId: "449738730487",
+    appId: "1:449738730487:web:b887..."
+  };
+  
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+
+  // DOM Elements
+  const loginSection = document.getElementById('loginSection');
+  const adminDashboard = document.getElementById('adminDashboard');
+  const loginForm = document.getElementById('loginForm');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const logoutBtn2 = document.getElementById('logoutBtn2');
+  const importStudentsBtn = document.getElementById('importStudentsBtn');
+  const importModal = document.getElementById('importStudentsModal');
+  const cancelImport = document.getElementById('cancelImport');
+  const confirmImport = document.getElementById('confirmImport');
+  const selectAllFirebase = document.getElementById('selectAllFirebase');
+  const importSearch = document.getElementById('importSearch');
+  const statusFilter = document.getElementById('statusFilter');
+  const searchInput = document.getElementById('searchInput');
+  const studentsTableBody = document.getElementById('studentsTableBody');
+  const firebaseStudentsTableBody = document.getElementById('firebaseStudentsTableBody');
+  const totalStudentsEl = document.getElementById('totalStudents');
+  const paidStudentsEl = document.getElementById('paidStudents');
+  const pendingStudentsEl = document.getElementById('pendingStudents');
+  const addCourseBtn = document.getElementById('addCourseBtn');
+  const cancelAddCourse = document.getElementById('cancelAddCourse');
+  const courseForm = document.getElementById('courseForm');
+  const addCourseForm = document.getElementById('addCourseForm');
+  const coursesContainer = document.getElementById('coursesContainer');
+  const studentsTab = document.getElementById('studentsTab');
+  const coursesTab = document.getElementById('coursesTab');
+  const analyticsTab = document.getElementById('analyticsTab');
+  const tabs = document.querySelectorAll('.tab');
+  const editCourseModal = document.getElementById('editCourseModal');
+  const closeEditModal = document.getElementById('closeEditModal');
+  const cancelEditCourse = document.getElementById('cancelEditCourse');
+  const editCourseForm = document.getElementById('editCourseForm');
+
+  // Global variables
+  let importedStudents = [];
+  let allFirebaseStudents = [];
+  let selectedFirebaseStudents = [];
+  let sortKey = null;
+  let sortAsc = true;
+  let courses = [];
+  let allStudents = [];
+  let enrollmentChart, paymentChart;
+
+  // Create stars on load
+  window.addEventListener('load', () => {
+    createStars();
+    checkAuthState();
+    setupTabs();
+  });
+
+  // Setup tabs
+  function setupTabs() {
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs
+        tabs.forEach(t => t.classList.remove('active'));
+        // Add active class to clicked tab
+        tab.classList.add('active');
+        
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        // Show corresponding tab content
+        const tabId = tab.getAttribute('data-tab');
+        document.getElementById(`${tabId}Tab`).classList.add('active');
+        
+        // If analytics tab, render charts
+        if (tabId === 'analytics') {
+          renderAnalytics();
+        }
+      });
+    });
+  }
+
+  // Check authentication state
+  function checkAuthState() {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        // User is signed in
+        loginSection.style.display = 'none';
+        adminDashboard.style.display = 'block';
+        loadImportedStudents();
+        loadCourses();
+      } else {
+        // No user is signed in
+        loginSection.style.display = 'flex';
+        adminDashboard.style.display = 'none';
+      }
+    });
+  }
+
+  // Login form submission
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      // Login successful - handled by auth state listener
+    } catch (error) {
+      alert(`Login failed: ${error.message}`);
+      console.error('Login error:', error);
+    }
+  });
+
+  // Logout buttons
+  logoutBtn.addEventListener('click', () => {
+    auth.signOut().then(() => {
+      console.log('User signed out');
+    }).catch(error => {
+      console.error('Logout error:', error);
+    });
+  });
+
+  logoutBtn2.addEventListener('click', () => {
+    auth.signOut().then(() => {
+      console.log('User signed out');
+    }).catch(error => {
+      console.error('Logout error:', error);
+    });
+  });
+
+  // Load imported students from Firestore
+  async function loadImportedStudents() {
+    try {
+      const querySnapshot = await db.collection("imported").get();
+      importedStudents = [];
+      allStudents = [];
+      
+      querySnapshot.forEach(doc => {
+        const data = doc.data();
+        importedStudents.push({
+          id: doc.id,
+          name: data.name || 'Unknown',
+          email: data.email || '',
+          phone: data.phone || '',
+          course: data.course || '',
+          level: data.level || '',
+          status: data.status || 'Pending',
+          firebaseDocId: data.firebaseDocId || '',
+          importedAt: data.importedAt || firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        // Also add to allStudents array for course matching
+        allStudents.push({
+          id: doc.id,
+          course: data.course || '',
+          status: data.status || 'Pending',
+          level: data.level || ''
+        });
+      });
+      
+      renderStudents();
+      updateStats();
+    } catch (error) {
+      console.error('Error loading imported students:', error);
+      alert('Failed to load students. Please try again.');
+    }
+  }
+
+  // Load courses from Firestore
+  async function loadCourses() {
+    try {
+      const querySnapshot = await db.collection("courses").get();
+      courses = [];
+      
+      querySnapshot.forEach(doc => {
+        const data = doc.data();
+        courses.push({
+          id: doc.id,
+          name: data.name || 'Unknown Course',
+          tutorName: data.tutorName || '',
+          tutorPhone: data.tutorPhone || '',
+          createdAt: data.createdAt || firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: data.updatedAt || null
+        });
+      });
+      
+      renderCourses();
+    } catch (error) {
+      console.error('Error loading courses:', error);
+      alert('Failed to load courses. Please try again.');
+    }
+  }
+
+  // Render courses
+  async function renderCourses() {
+    coursesContainer.innerHTML = '';
+    
+    if (courses.length === 0) {
+      coursesContainer.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+          <p>No courses found. Click "Add Course" to create your first course.</p>
+        </div>
+      `;
+      return;
+    }
+    
+    // Sort courses alphabetically
+    courses.sort((a, b) => a.name.localeCompare(b.name));
+    
+    for (const course of courses) {
+      // Count paid students for this course with fuzzy matching
+      const paidCount = countPaidStudentsForCourse(course.name);
+      
+      const courseCard = document.createElement('div');
+      courseCard.className = 'course-card';
+      courseCard.innerHTML = `
+        <div class="actions">
+          <button class="whatsapp-btn" data-phone="${course.tutorPhone}" title="Message Tutor">
+            <i class="fab fa-whatsapp"></i>
+          </button>
+          <button class="edit-btn" data-id="${course.id}" title="Edit Course">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="delete-btn" data-id="${course.id}" title="Delete Course">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+        <h3>${course.name}</h3>
+        <div class="tutor-info">
+          <p><strong>Tutor:</strong> ${course.tutorName}</p>
+          <p><strong>Phone:</strong> ${course.tutorPhone}</p>
+        </div>
+        <div class="students-count">
+          <i class="fas fa-user-graduate"></i>
+          <span>${paidCount} paid student(s)</span>
+        </div>
+      `;
+      
+      // Add click event to show students for this course
+      courseCard.addEventListener('click', () => {
+        showStudentsForCourse(course.name, true); // true for paid only
+      });
+      
+      // Add event listeners for action buttons
+      const whatsappBtn = courseCard.querySelector('.whatsapp-btn');
+      whatsappBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const phone = whatsappBtn.getAttribute('data-phone');
+        if (phone) {
+          window.open(`https://wa.me/${phone.replace(/[^\d]/g, '')}`, '_blank');
+        }
+      });
+      
+      const editBtn = courseCard.querySelector('.edit-btn');
+      editBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openEditCourseModal(course);
+      });
+      
+      const deleteBtn = courseCard.querySelector('.delete-btn');
+      deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        deleteCourse(course.id);
+      });
+      
+      coursesContainer.appendChild(courseCard);
+    }
+  }
+
+  // Show students for a specific course
+  function showStudentsForCourse(courseName, paidOnly = true) {
+    // Switch to Students tab
+    document.querySelector('.tab[data-tab="students"]').click();
+    
+    // Set filter values
+    document.getElementById('statusFilter').value = paidOnly ? 'Paid' : 'all';
+    document.getElementById('searchInput').value = courseName;
+    
+    // Trigger filtering
+    renderStudents();
+  }
+
+  // Count paid students for a course with fuzzy matching
+  function countPaidStudentsForCourse(courseName) {
+    if (!allStudents || allStudents.length === 0) return 0;
+    
+    // Normalize the course name for comparison
+    const normalizedCourseName = courseName.toLowerCase().trim();
+    
+    return allStudents.filter(student => {
+      // Only count paid students
+      if (student.status !== 'Paid') return false;
+      
+      // Normalize student's course name
+      const studentCourse = student.course ? student.course.toLowerCase().trim() : '';
+      
+      // Exact match
+      if (studentCourse === normalizedCourseName) return true;
+      
+      // Partial match (if course name contains part of our course name)
+      if (studentCourse.includes(normalizedCourseName)) return true;
+      
+      // Check if our course name contains part of student's course
+      if (normalizedCourseName.includes(studentCourse)) return true;
+      
+      return false;
+    }).length;
+  }
+
+  // Render analytics charts
+  function renderAnalytics() {
+    // Group students by course
+    const courseData = {};
+    
+    allStudents.forEach(student => {
+      if (!courseData[student.course]) {
+        courseData[student.course] = { paid: 0, pending: 0 };
+      }
+      if (student.status === 'Paid') {
+        courseData[student.course].paid++;
+      } else {
+        courseData[student.course].pending++;
+      }
+    });
+    
+    // Prepare data for charts
+    const courses = Object.keys(courseData);
+    const paidData = courses.map(course => courseData[course].paid);
+    const pendingData = courses.map(course => courseData[course].pending);
+    
+    // Destroy existing charts if they exist
+    if (enrollmentChart) enrollmentChart.destroy();
+    if (paymentChart) paymentChart.destroy();
+    
+    // Enrollment Chart (Total Students)
+    const ctx1 = document.getElementById('enrollmentChart').getContext('2d');
+    enrollmentChart = new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: courses,
+        datasets: [{
+          label: 'Total Students',
+          data: courses.map(course => courseData[course].paid + courseData[course].pending),
+          backgroundColor: 'rgba(108, 92, 231, 0.7)',
+          borderColor: 'rgba(108, 92, 231, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              color: '#f5f6fa'
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: '#f5f6fa'
+            },
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            }
+          },
+          x: {
+            ticks: {
+              color: '#f5f6fa'
+            },
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            }
+          }
+        }
+      }
+    });
+    
+    // Payment Status Chart
+    const ctx2 = document.getElementById('paymentChart').getContext('2d');
+    paymentChart = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: courses,
+        datasets: [
+          {
+            label: 'Paid Students',
+            data: paidData,
+            backgroundColor: 'rgba(0, 184, 148, 0.7)',
+            borderColor: 'rgba(0, 184, 148, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Pending Payments',
+            data: pendingData,
+            backgroundColor: 'rgba(253, 203, 110, 0.7)',
+            borderColor: 'rgba(253, 203, 110, 1)',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              color: '#f5f6fa'
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: '#f5f6fa'
+            },
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            }
+          },
+          x: {
+            ticks: {
+              color: '#f5f6fa'
+            },
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Open edit course modal
+  function openEditCourseModal(course) {
+    document.getElementById('editCourseId').value = course.id;
+    document.getElementById('editCourseName').value = course.name;
+    document.getElementById('editTutorName').value = course.tutorName;
+    document.getElementById('editTutorPhone').value = course.tutorPhone;
+    editCourseModal.style.display = 'flex';
+  }
+
+  // Close edit course modal
+  closeEditModal.addEventListener('click', () => {
+    editCourseModal.style.display = 'none';
+  });
+
+  cancelEditCourse.addEventListener('click', () => {
+    editCourseModal.style.display = 'none';
+  });
+
+  // Edit course form submission
+  editCourseForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const id = document.getElementById('editCourseId').value;
+    const name = document.getElementById('editCourseName').value;
+    const tutorName = document.getElementById('editTutorName').value;
+    const tutorPhone = document.getElementById('editTutorPhone').value;
+    
+    try {
+      await db.collection("courses").doc(id).update({
+        name: name,
+        tutorName: tutorName,
+        tutorPhone: tutorPhone,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      
+      alert('Course updated successfully!');
+      editCourseModal.style.display = 'none';
+      loadCourses();
+    } catch (error) {
+      console.error('Error updating course:', error);
+      alert('Failed to update course. Please try again.');
+    }
+  });
+
+  // Add course button
+  addCourseBtn.addEventListener('click', () => {
+    addCourseForm.style.display = 'block';
+    addCourseBtn.style.display = 'none';
+    courseForm.reset();
+  });
+
+  // Cancel add course
+  cancelAddCourse.addEventListener('click', () => {
+    addCourseForm.style.display = 'none';
+    addCourseBtn.style.display = 'inline-flex';
+  });
+
+  // Course form submission
+  courseForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById('courseName').value;
+    const tutorName = document.getElementById('tutorName').value;
+    const tutorPhone = document.getElementById('tutorPhone').value;
+    
+    try {
+      await db.collection("courses").add({
+        name: name,
+        tutorName: tutorName,
+        tutorPhone: tutorPhone,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      
+      alert('Course added successfully!');
+      addCourseForm.style.display = 'none';
+      addCourseBtn.style.display = 'inline-flex';
+      courseForm.reset();
+      loadCourses();
+    } catch (error) {
+      console.error('Error adding course:', error);
+      alert('Failed to add course. Please try again.');
+    }
+  });
+
+  // Delete course
+  async function deleteCourse(id) {
+    if (!confirm('Are you sure you want to delete this course? This action cannot be undone.')) {
+      return;
+    }
+    
+    try {
+      await db.collection("courses").doc(id).delete();
+      alert('Course deleted successfully!');
+      loadCourses();
+    } catch (error) {
+      console.error('Error deleting course:', error);
+      alert('Failed to delete course. Please try again.');
+    }
+  }
+
+  // Open import modal
+  importStudentsBtn.addEventListener('click', openImportModal);
+
+  async function openImportModal() {
+    importModal.style.display = 'flex';
+    
+    try {
+      const querySnapshot = await db.collection("registrations").get();
+      allFirebaseStudents = [];
+      selectedFirebaseStudents = [];
+      
+      querySnapshot.forEach(doc => {
+        const data = doc.data();
+        // Check if student is already imported
+        const isImported = importedStudents.some(s => s.firebaseDocId === doc.id);
+        
+        if (!isImported) {
+          allFirebaseStudents.push({
+            id: doc.id,
+            name: data.full_name || 'Unknown',
+            email: data.email || '',
+            phone: data.phone || '',
+            course: data.course || '',
+            level: data.level || '',
+            status: 'Pending',
+            firebaseDocId: doc.id
+          });
+        }
+      });
+      
+      renderFirebaseStudents(allFirebaseStudents);
+    } catch (error) {
+      console.error('Error loading students:', error);
+      alert('Failed to load students. Please try again.');
+    }
+  }
+
+  // Render Firebase students in import modal
+  function renderFirebaseStudents(students) {
+    firebaseStudentsTableBody.innerHTML = '';
+    
+    if (students.length === 0) {
+      const row = document.createElement('tr');
+      row.innerHTML = `<td colspan="6" style="text-align: center; padding: 2rem;">No students available to import</td>`;
+      firebaseStudentsTableBody.appendChild(row);
+      return;
+    }
+    
+    students.forEach(student => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td><input type="checkbox" class="student-checkbox" data-id="${student.firebaseDocId}"></td>
+        <td>${student.name}<span class="student-email">${student.email}</span></td>
+        <td>${student.course}</td>
+        <td>${student.level}</td>
+        <td>${student.phone}</td>
+        <td>
+          <select class="status-select" data-id="${student.firebaseDocId}">
+            <option value="Pending" ${student.status === 'Pending' ? 'selected' : ''}>Pending</option>
+            <option value="Paid" ${student.status === 'Paid' ? 'selected' : ''}>Paid</option>
+          </select>
+        </td>
+      `;
+      
+      const checkbox = row.querySelector('.student-checkbox');
+      checkbox.addEventListener('change', e => {
+        const id = e.target.getAttribute('data-id');
+        if (e.target.checked) {
+          if (!selectedFirebaseStudents.includes(id)) selectedFirebaseStudents.push(id);
+        } else {
+          selectedFirebaseStudents = selectedFirebaseStudents.filter(i => i !== id);
+        }
+        selectAllFirebase.checked = selectedFirebaseStudents.length === students.length;
+      });
+      
+      const statusSelect = row.querySelector('.status-select');
+      statusSelect.addEventListener('change', e => {
+        const student = allFirebaseStudents.find(s => s.firebaseDocId === e.target.getAttribute('data-id'));
+        if (student) student.status = e.target.value;
+      });
+      
+      firebaseStudentsTableBody.appendChild(row);
+    });
+  }
+
+  // Select all students in import modal
+  selectAllFirebase.addEventListener('change', function(e) {
+    const checkboxes = document.querySelectorAll('.student-checkbox');
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = e.target.checked;
+      const id = checkbox.getAttribute('data-id');
+      
+      if (e.target.checked) {
+        if (!selectedFirebaseStudents.includes(id)) selectedFirebaseStudents.push(id);
+      } else {
+        selectedFirebaseStudents = [];
+      }
+    });
+  });
+
+  // Filter students in import modal
+  importSearch.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const filtered = allFirebaseStudents.filter(student => 
+      student.name.toLowerCase().includes(searchTerm) || 
+      student.email.toLowerCase().includes(searchTerm) ||
+      student.phone.toLowerCase().includes(searchTerm) ||
+      student.course.toLowerCase().includes(searchTerm) ||
+      student.level.toLowerCase().includes(searchTerm)
+    );
+    renderFirebaseStudents(filtered);
+  });
+
+  // Cancel import
+  cancelImport.addEventListener('click', () => {
+    importModal.style.display = 'none';
+  });
+
+  // Confirm import
+  confirmImport.addEventListener('click', async function() {
+    if (selectedFirebaseStudents.length === 0) {
+      alert('Please select at least one student to import');
+      return;
+    }
+    
+    try {
+      const batch = db.batch();
+      const importedRef = db.collection("imported");
+      
+      const selectedStudents = allFirebaseStudents.filter(s => 
+        selectedFirebaseStudents.includes(s.firebaseDocId)
+      );
+      
+      for (const student of selectedStudents) {
+        const newStudent = {
+          name: student.name,
+          email: student.email,
+          phone: student.phone,
+          course: student.course,
+          level: student.level,
+          status: student.status,
+          firebaseDocId: student.firebaseDocId,
+          importedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        
+        const docRef = importedRef.doc();
+        batch.set(docRef, newStudent);
+        
+        // Add to local array with the new ID
+        importedStudents.push({
+          ...newStudent,
+          id: docRef.id
+        });
+        
+        // Also add to allStudents array for course matching
+        allStudents.push({
+          id: docRef.id,
+          course: student.course,
+          status: student.status,
+          level: student.level
+        });
+      }
+      
+      await batch.commit();
+      alert(`${selectedStudents.length} student(s) imported successfully!`);
+      importModal.style.display = 'none';
+      renderStudents();
+      updateStats();
+      renderCourses(); // Update course counts after import
+    } catch (error) {
+      console.error('Error importing students:', error);
+      alert('Failed to import students. Please try again.');
+    }
+  });
+
+  // Sortable table headers
+  document.querySelectorAll("th.sortable").forEach(th => {
+    th.addEventListener("click", () => {
+      // Remove sort indicators from all headers
+      document.querySelectorAll("th.sortable").forEach(h => {
+        h.classList.remove('sort-asc', 'sort-desc');
+      });
+      
+      const key = th.getAttribute("data-key");
+      if (sortKey === key) {
+        sortAsc = !sortAsc;
+      } else {
+        sortKey = key;
+        sortAsc = true;
+      }
+      
+      // Add appropriate class to current header
+      th.classList.add(sortAsc ? 'sort-asc' : 'sort-desc');
+      
+      renderStudents();
+    });
+  });
+
+  // Render students in main table
+  function renderStudents() {
+    const tbody = document.getElementById('studentsTableBody');
+    tbody.innerHTML = '';
+    
+    const statusFilterValue = document.getElementById('statusFilter').value;
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    
+    let filtered = importedStudents.filter(student => 
+      (statusFilterValue === 'all' || student.status === statusFilterValue) &&
+      (student.name.toLowerCase().includes(searchTerm) || 
+       student.email.toLowerCase().includes(searchTerm) ||
+       student.phone.toLowerCase().includes(searchTerm) ||
+       student.course.toLowerCase().includes(searchTerm) ||
+       student.level.toLowerCase().includes(searchTerm))
+    );
+    
+    if (sortKey) {
+      filtered.sort((a, b) => {
+        if (a[sortKey] < b[sortKey]) return sortAsc ? -1 : 1;
+        if (a[sortKey] > b[sortKey]) return sortAsc ? 1 : -1;
+        return 0;
+      });
+    }
+    
+    if (filtered.length === 0) {
+      const row = document.createElement('tr');
+      row.innerHTML = `<td colspan="6" style="text-align: center; padding: 2rem;">No students found</td>`;
+      tbody.appendChild(row);
+      return;
+    }
+    
+    filtered.forEach(student => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>
+          ${student.name}
+          <span class="student-email">${student.email}</span>
+        </td>
+        <td>${student.course}</td>
+        <td>
+  <span class="level-badge ${student.level.toLowerCase().replace(' ', '-')}">
+    ${student.level || 'Not Specified'}
+  </span>
+</td>
+        <td>${student.phone}</td>
+        <td>
+          <span class="status-badge ${student.status === 'Paid' ? 'status-active' : 'status-inactive'}">
+            ${student.status}
+          </span>
+        </td>
+        <td>
+          <a href="https://wa.me/${student.phone.replace(/[^\d]/g, '')}" 
+             target="_blank" 
+             class="btn btn-success"
+             title="Message on WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <button class="btn btn-danger" onclick="deleteStudent('${student.id}')" title="Delete">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  // Delete student
+  async function deleteStudent(id) {
+    if (!confirm('Are you sure you want to delete this student?')) return;
+    
+    try {
+      await db.collection("imported").doc(id).delete();
+      importedStudents = importedStudents.filter(s => s.id !== id);
+      allStudents = allStudents.filter(s => s.id !== id);
+      renderStudents();
+      updateStats();
+      renderCourses(); // Update course counts after deletion
+    } catch (error) {
+      console.error('Error deleting student:', error);
+      alert('Failed to delete student. Please try again.');
+    }
+  }
+
+  // Update stats cards
+  function updateStats() {
+    totalStudentsEl.textContent = importedStudents.length;
+    
+    const paidCount = importedStudents.filter(s => s.status === 'Paid').length;
+    paidStudentsEl.textContent = paidCount;
+    
+    const pendingCount = importedStudents.filter(s => s.status === 'Pending').length;
+    pendingStudentsEl.textContent = pendingCount;
+  }
+
+  // Search and filter events
+  searchInput.addEventListener('input', renderStudents);
+  statusFilter.addEventListener('change', renderStudents);
+
+  // Make deleteStudent available globally
+  window.deleteStudent = deleteStudent;
+</script>
+</body>
+</html>

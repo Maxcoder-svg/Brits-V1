@@ -34,18 +34,18 @@ const students = {
             showStudents(currentCourse);
         });
         
-        // Load students from localStorage
-        function loadStudents() {
-            const savedStudents = localStorage.getItem('students');
-            if (savedStudents) {
-                allStudents = JSON.parse(savedStudents);
-                showNotification('Student data loaded from storage');
-            } else {
-                // Initialize with an empty array if no data exists
-                allStudents = [];
-                localStorage.setItem('students', JSON.stringify(allStudents));
-            }
-        }
+        // // Load students from localStorage
+        // function loadStudents() {
+        //     const savedStudents = localStorage.getItem('students');
+        //     if (savedStudents) {
+        //         allStudents = JSON.parse(savedStudents);
+        //         showNotification('Student data loaded from storage');
+        //     } else {
+        //         // Initialize with an empty array if no data exists
+        //         allStudents = [];
+        //         localStorage.setItem('students', JSON.stringify(allStudents));
+        //     }
+        // }
         
         // Save students to localStorage
         function saveStudents() {
@@ -452,6 +452,16 @@ const beginnerCourseModules = {
                 <li>Style and add interactivity</li>
                 <li>Review and publish</li>
             </ul>`
+        },
+            {
+            title: 'CONGRATULATIONS, YOU ARE ALMOST GRADUATING🥳',
+            content: `<ul>
+                <li>Provision of certificate</li>
+                <li>School contact:+254741261579</li>
+                <li>Tutor contact:+254741261579</li>
+                <li>Congratulations😍😁</li>
+
+            </ul>`
         }
     ],
     'data-science': [
@@ -515,6 +525,16 @@ const beginnerCourseModules = {
                 <li>Choose a simple dataset</li>
                 <li>Clean, analyze, and visualize</li>
                 <li>Share your findings</li>
+            </ul>`
+        },
+            {
+            title: 'CONGRATULATIONS, YOU ARE ALMOST GRADUATING🥳',
+            content: `<ul>
+                <li>Provision of certificate</li>
+                <li>School contact:+254741261579</li>
+                <li>Tutor contact:+254704230381</li>
+                <li>Congratulations😍😁</li>
+
             </ul>`
         }
     ],
@@ -602,8 +622,8 @@ const beginnerCourseModules = {
             title: 'CONGRATULATIONS, YOU ARE ALMOST GRADUATING🥳',
             content: `<ul>
                 <li>Provision of certificate</li>
-                <li>School contact:</li>
-                <li>Tutor contact:</li>
+                <li>School contact:+254741261579</li>
+                <li>Tutor contact:+254117487554</li>
                 <li>Congratulations😍😁</li>
 
             </ul>`
@@ -737,8 +757,8 @@ const beginnerCourseModules = {
             title: 'CONGRATULATIONS, YOU ARE ALMOST GRADUATING🥳',
             content: `<ul>
                 <li>Provision of certificate</li>
-                <li>School contact:</li>
-                <li>Tutor contact:</li>
+                <li>School contact:+254741261579</li>
+                <li>Tutor contact:+254759097157</li>
                 <li>Congratulations😍😁</li>
 
             </ul>`
@@ -803,6 +823,16 @@ const beginnerCourseModules = {
                 <li>Create and post your first video</li>
                 <li>Share with friends and family</li>
             </ul>`
+        },
+            {
+            title: 'CONGRATULATIONS, YOU ARE ALMOST GRADUATING🥳',
+            content: `<ul>
+                <li>Provision of certificate</li>
+                <li>School contact:+254741261579</li>
+                <li>Tutor contact:+254746550166</li>
+                <li>Congratulations😍😁</li>
+
+            </ul>`
         }
     ],
     'VIRTUAL ASSISTANT, DIGITAL MARKETING & CHAT MODERATION': [
@@ -860,6 +890,16 @@ const beginnerCourseModules = {
             content: `<ul>
                 <li>Help with emails or social media for a local business</li>
                 <li>Share your experience</li>
+            </ul>`
+        },
+            {
+            title: 'CONGRATULATIONS, YOU ARE ALMOST GRADUATING🥳',
+            content: `<ul>
+                <li>Provision of certificate</li>
+                <li>School contact:+254741261579</li>
+                <li>Tutor contact:+254791870469</li>
+                <li>Congratulations😍😁</li>
+
             </ul>`
         }
     ]
